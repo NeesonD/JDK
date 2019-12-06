@@ -26,6 +26,7 @@
 package java.util;
 
 import java.io.*;
+import java.util.concurrent.collection.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.BiFunction;
@@ -114,7 +115,7 @@ import jdk.internal.misc.SharedSecrets;
  * thread-safe implementation is not needed, it is recommended to use
  * {@link HashMap} in place of {@code Hashtable}.  If a thread-safe
  * highly-concurrent implementation is desired, then it is recommended
- * to use {@link java.util.concurrent.ConcurrentHashMap} in place of
+ * to use {@link ConcurrentHashMap} in place of
  * {@code Hashtable}.
  *
  * @param <K> the type of keys maintained by this map

@@ -44,7 +44,7 @@ import java.nio.channels.IllegalBlockingModeException;
 import java.nio.channels.SocketChannel;
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
-import static java.util.concurrent.TimeUnit.*;
+import static java.util.concurrent.common.TimeUnit.*;
 
 // Make a socket channel look like a socket.
 //

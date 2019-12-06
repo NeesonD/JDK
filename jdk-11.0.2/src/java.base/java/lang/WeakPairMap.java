@@ -29,7 +29,7 @@ import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 import java.util.function.BiFunction;
 
 /**

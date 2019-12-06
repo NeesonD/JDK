@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.utils;
 
 import static java.lang.ref.Reference.reachabilityFence;
 import java.security.AccessControlContext;
@@ -44,7 +44,23 @@ import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.exception.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.TimeoutException;
+import java.util.concurrent.queue.LinkedBlockingQueue;
+import java.util.concurrent.queue.SynchronousQueue;
+
 import sun.security.util.SecurityConstants;
 
 /**
@@ -90,8 +106,8 @@ public class Executors {
      */
     public static ExecutorService newFixedThreadPool(int nThreads) {
         return new ThreadPoolExecutor(nThreads, nThreads,
-                                      0L, TimeUnit.MILLISECONDS,
-                                      new LinkedBlockingQueue<Runnable>());
+                                      0L, java.util.concurrent.common.TimeUnit.MILLISECONDS,
+                                      new java.util.concurrent.queue.LinkedBlockingQueue<Runnable>());
     }
 
     /**
@@ -153,8 +169,8 @@ public class Executors {
      */
     public static ExecutorService newFixedThreadPool(int nThreads, ThreadFactory threadFactory) {
         return new ThreadPoolExecutor(nThreads, nThreads,
-                                      0L, TimeUnit.MILLISECONDS,
-                                      new LinkedBlockingQueue<Runnable>(),
+                                      0L, java.util.concurrent.common.TimeUnit.MILLISECONDS,
+                                      new java.util.concurrent.queue.LinkedBlockingQueue<Runnable>(),
                                       threadFactory);
     }
 
@@ -174,8 +190,8 @@ public class Executors {
     public static ExecutorService newSingleThreadExecutor() {
         return new FinalizableDelegatedExecutorService
             (new ThreadPoolExecutor(1, 1,
-                                    0L, TimeUnit.MILLISECONDS,
-                                    new LinkedBlockingQueue<Runnable>()));
+                                    0L, java.util.concurrent.common.TimeUnit.MILLISECONDS,
+                                    new java.util.concurrent.queue.LinkedBlockingQueue<Runnable>()));
     }
 
     /**
@@ -193,7 +209,7 @@ public class Executors {
     public static ExecutorService newSingleThreadExecutor(ThreadFactory threadFactory) {
         return new FinalizableDelegatedExecutorService
             (new ThreadPoolExecutor(1, 1,
-                                    0L, TimeUnit.MILLISECONDS,
+                                    0L, java.util.concurrent.common.TimeUnit.MILLISECONDS,
                                     new LinkedBlockingQueue<Runnable>(),
                                     threadFactory));
     }
@@ -216,8 +232,8 @@ public class Executors {
      */
     public static ExecutorService newCachedThreadPool() {
         return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
-                                      60L, TimeUnit.SECONDS,
-                                      new SynchronousQueue<Runnable>());
+                                      60L, java.util.concurrent.common.TimeUnit.SECONDS,
+                                      new java.util.concurrent.queue.SynchronousQueue<Runnable>());
     }
 
     /**
@@ -232,7 +248,7 @@ public class Executors {
      */
     public static ExecutorService newCachedThreadPool(ThreadFactory threadFactory) {
         return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
-                                      60L, TimeUnit.SECONDS,
+                                      60L, java.util.concurrent.common.TimeUnit.SECONDS,
                                       new SynchronousQueue<Runnable>(),
                                       threadFactory);
     }
@@ -703,7 +719,7 @@ public class Executors {
                 return e.isTerminated();
             } finally { reachabilityFence(this); }
         }
-        public boolean awaitTermination(long timeout, TimeUnit unit)
+        public boolean awaitTermination(long timeout, java.util.concurrent.common.TimeUnit unit)
             throws InterruptedException {
             try {
                 return e.awaitTermination(timeout, unit);
@@ -731,7 +747,7 @@ public class Executors {
             } finally { reachabilityFence(this); }
         }
         public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
-                                             long timeout, TimeUnit unit)
+                                             long timeout, java.util.concurrent.common.TimeUnit unit)
             throws InterruptedException {
             try {
                 return e.invokeAll(tasks, timeout, unit);
@@ -744,7 +760,7 @@ public class Executors {
             } finally { reachabilityFence(this); }
         }
         public <T> T invokeAny(Collection<? extends Callable<T>> tasks,
-                               long timeout, TimeUnit unit)
+                               long timeout, java.util.concurrent.common.TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException {
             try {
                 return e.invokeAny(tasks, timeout, unit);
@@ -775,16 +791,16 @@ public class Executors {
             super(executor);
             e = executor;
         }
-        public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
+        public ScheduledFuture<?> schedule(Runnable command, long delay, java.util.concurrent.common.TimeUnit unit) {
             return e.schedule(command, delay, unit);
         }
         public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
             return e.schedule(callable, delay, unit);
         }
-        public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
+        public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, java.util.concurrent.common.TimeUnit unit) {
             return e.scheduleAtFixedRate(command, initialDelay, period, unit);
         }
-        public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
+        public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, java.util.concurrent.common.TimeUnit unit) {
             return e.scheduleWithFixedDelay(command, initialDelay, delay, unit);
         }
     }

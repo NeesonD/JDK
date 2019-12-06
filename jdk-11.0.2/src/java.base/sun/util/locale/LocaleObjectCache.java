@@ -33,8 +33,8 @@ package sun.util.locale;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentMap;
 
 public abstract class LocaleObjectCache<K, V> {
     private final ConcurrentMap<K, CacheEntry<K, V>> map;

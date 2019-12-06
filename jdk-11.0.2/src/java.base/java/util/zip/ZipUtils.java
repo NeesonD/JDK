@@ -25,7 +25,6 @@
 
 package java.util.zip;
 
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.file.attribute.FileTime;
 import java.security.AccessController;
@@ -35,12 +34,11 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.common.TimeUnit;
 
 import static java.util.zip.ZipConstants.ENDHDR;
 
 import jdk.internal.misc.Unsafe;
-import sun.nio.ch.DirectBuffer;
 
 class ZipUtils {
 

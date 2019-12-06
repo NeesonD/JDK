@@ -29,7 +29,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.common.TimeUnit;
 
 /**
  * Represents the value of a file's time stamp attribute. For example, it may

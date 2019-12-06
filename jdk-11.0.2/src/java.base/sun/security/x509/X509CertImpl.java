@@ -36,13 +36,11 @@ import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.AlgorithmParameterSpec;
 import java.security.cert.*;
-import java.security.cert.Certificate;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 
 import javax.security.auth.x500.X500Principal;
 
-import java.util.Base64;
 import sun.security.util.*;
 import sun.security.provider.X509Factory;
 

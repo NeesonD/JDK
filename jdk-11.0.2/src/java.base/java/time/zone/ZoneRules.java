@@ -79,8 +79,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentMap;
 
 /**
  * The rules defining how the zone offset varies for a single time-zone.

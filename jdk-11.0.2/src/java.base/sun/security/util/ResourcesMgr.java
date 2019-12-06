@@ -27,7 +27,7 @@ package sun.security.util;
 
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 import jdk.internal.misc.VM;
 
 /**

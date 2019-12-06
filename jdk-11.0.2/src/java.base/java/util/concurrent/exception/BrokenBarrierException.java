@@ -33,7 +33,9 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.exception;
+
+import java.util.concurrent.CyclicBarrier;
 
 /**
  * Exception thrown when a thread tries to wait upon a barrier that is

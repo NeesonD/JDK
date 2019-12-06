@@ -33,50 +33,54 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.exception;
+
+import java.util.concurrent.Future;
 
 /**
- * Exception thrown when an error or other exception is encountered
- * in the course of completing a result or task.
+ * Exception thrown when attempting to retrieve the result of a task
+ * that aborted by throwing an exception. This exception can be
+ * inspected using the {@link #getCause()} method.
  *
- * @since 1.8
+ * @see Future
+ * @since 1.5
  * @author Doug Lea
  */
-public class CompletionException extends RuntimeException {
+public class ExecutionException extends Exception {
     private static final long serialVersionUID = 7830266012832686185L;
 
     /**
-     * Constructs a {@code CompletionException} with no detail message.
+     * Constructs an {@code ExecutionException} with no detail message.
      * The cause is not initialized, and may subsequently be
      * initialized by a call to {@link #initCause(Throwable) initCause}.
      */
-    protected CompletionException() { }
+    protected ExecutionException() { }
 
     /**
-     * Constructs a {@code CompletionException} with the specified detail
+     * Constructs an {@code ExecutionException} with the specified detail
      * message. The cause is not initialized, and may subsequently be
      * initialized by a call to {@link #initCause(Throwable) initCause}.
      *
      * @param message the detail message
      */
-    protected CompletionException(String message) {
+    protected ExecutionException(String message) {
         super(message);
     }
 
     /**
-     * Constructs a {@code CompletionException} with the specified detail
+     * Constructs an {@code ExecutionException} with the specified detail
      * message and cause.
      *
      * @param  message the detail message
      * @param  cause the cause (which is saved for later retrieval by the
      *         {@link #getCause()} method)
      */
-    public CompletionException(String message, Throwable cause) {
+    public ExecutionException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * Constructs a {@code CompletionException} with the specified cause.
+     * Constructs an {@code ExecutionException} with the specified cause.
      * The detail message is set to {@code (cause == null ? null :
      * cause.toString())} (which typically contains the class and
      * detail message of {@code cause}).
@@ -84,7 +88,7 @@ public class CompletionException extends RuntimeException {
      * @param  cause the cause (which is saved for later retrieval by the
      *         {@link #getCause()} method)
      */
-    public CompletionException(Throwable cause) {
+    public ExecutionException(Throwable cause) {
         super(cause);
     }
 }

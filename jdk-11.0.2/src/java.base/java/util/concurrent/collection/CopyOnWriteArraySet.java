@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.collection;
 
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -46,7 +46,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * A {@link Set} that uses an internal {@link CopyOnWriteArrayList}
+ * A {@link Set} that uses an internal {@link java.util.concurrent.CopyOnWriteArrayList}
  * for all of its operations.  Thus, it shares the same basic properties:
  * <ul>
  *  <li>It is best suited for applications in which set sizes generally
@@ -90,7 +90,7 @@ import java.util.function.Predicate;
  * <a href="{@docRoot}/java.base/java/util/package-summary.html#CollectionsFramework">
  * Java Collections Framework</a>.
  *
- * @see CopyOnWriteArrayList
+ * @see java.util.concurrent.CopyOnWriteArrayList
  * @since 1.5
  * @author Doug Lea
  * @param <E> the type of elements held in this set
@@ -99,13 +99,13 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
         implements java.io.Serializable {
     private static final long serialVersionUID = 5457747651344034263L;
 
-    private final CopyOnWriteArrayList<E> al;
+    private final java.util.concurrent.CopyOnWriteArrayList<E> al;
 
     /**
      * Creates an empty set.
      */
     public CopyOnWriteArraySet() {
-        al = new CopyOnWriteArrayList<E>();
+        al = new java.util.concurrent.CopyOnWriteArrayList<E>();
     }
 
     /**
@@ -119,7 +119,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
         if (c.getClass() == CopyOnWriteArraySet.class) {
             @SuppressWarnings("unchecked") CopyOnWriteArraySet<E> cc =
                 (CopyOnWriteArraySet<E>)c;
-            al = new CopyOnWriteArrayList<E>(cc.al);
+            al = new java.util.concurrent.CopyOnWriteArrayList<E>(cc.al);
         }
         else {
             al = new CopyOnWriteArrayList<E>();

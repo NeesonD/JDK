@@ -27,7 +27,7 @@ package java.nio.file;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.common.TimeUnit;
 
 /**
  * A watch service that <em>watches</em> registered objects for changes and

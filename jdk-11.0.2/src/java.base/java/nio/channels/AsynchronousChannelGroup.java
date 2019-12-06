@@ -29,7 +29,8 @@ import java.nio.channels.spi.AsynchronousChannelProvider;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.utils.Executors;
 
 /**
  * A grouping of asynchronous channels for the purpose of resource sharing.
@@ -228,7 +229,7 @@ public abstract class AsynchronousChannelGroup {
      * @throws  IOException
      *          If an I/O error occurs
      *
-     * @see java.util.concurrent.Executors#newCachedThreadPool
+     * @see Executors#newCachedThreadPool
      */
     public static AsynchronousChannelGroup withCachedThreadPool(ExecutorService executor,
                                                                 int initialSize)

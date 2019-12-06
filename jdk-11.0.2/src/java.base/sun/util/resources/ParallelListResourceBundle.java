@@ -33,8 +33,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
 /**

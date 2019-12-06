@@ -44,6 +44,11 @@ import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.CancellationException;
+import java.util.concurrent.exception.ExecutionException;
+import java.util.concurrent.exception.RejectedExecutionException;
+import java.util.concurrent.exception.TimeoutException;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -134,11 +139,11 @@ import java.util.concurrent.locks.ReentrantLock;
  * {@link #isCompletedNormally} is true if a task completed without
  * cancellation or encountering an exception; {@link #isCancelled} is
  * true if the task was cancelled (in which case {@link #getException}
- * returns a {@link CancellationException}); and
+ * returns a {@link java.util.concurrent.exception.CancellationException}); and
  * {@link #isCompletedAbnormally} is true if a task was either
  * cancelled or encountered an exception, in which case {@link
  * #getException} will return either the encountered exception or
- * {@link CancellationException}.
+ * {@link java.util.concurrent.exception.CancellationException}.
  *
  * <p>The ForkJoinTask class is not usually directly subclassed.
  * Instead, you subclass one of the abstract classes that support a
@@ -676,7 +681,7 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
      */
     private void reportException(int s) {
         rethrow((s & THROWN) != 0 ? getThrowableException() :
-                new CancellationException());
+                new java.util.concurrent.exception.CancellationException());
     }
 
     // public methods
@@ -929,7 +934,7 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
     public final Throwable getException() {
         int s = status;
         return ((s & ABNORMAL) == 0 ? null :
-                (s & THROWN)   == 0 ? new CancellationException() :
+                (s & THROWN)   == 0 ? new java.util.concurrent.exception.CancellationException() :
                 getThrowableException());
     }
 
@@ -993,19 +998,19 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
      * retrieves its result.
      *
      * @return the computed result
-     * @throws CancellationException if the computation was cancelled
-     * @throws ExecutionException if the computation threw an
+     * @throws java.util.concurrent.exception.CancellationException if the computation was cancelled
+     * @throws java.util.concurrent.exception.ExecutionException if the computation threw an
      * exception
      * @throws InterruptedException if the current thread is not a
      * member of a ForkJoinPool and was interrupted while waiting
      */
-    public final V get() throws InterruptedException, ExecutionException {
+    public final V get() throws InterruptedException, java.util.concurrent.exception.ExecutionException {
         int s = (Thread.currentThread() instanceof ForkJoinWorkerThread) ?
             doJoin() : externalInterruptibleAwaitDone();
         if ((s & THROWN) != 0)
-            throw new ExecutionException(getThrowableException());
+            throw new java.util.concurrent.exception.ExecutionException(getThrowableException());
         else if ((s & ABNORMAL) != 0)
-            throw new CancellationException();
+            throw new java.util.concurrent.exception.CancellationException();
         else
             return getRawResult();
     }
@@ -1017,15 +1022,15 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
      * @param timeout the maximum time to wait
      * @param unit the time unit of the timeout argument
      * @return the computed result
-     * @throws CancellationException if the computation was cancelled
-     * @throws ExecutionException if the computation threw an
+     * @throws java.util.concurrent.exception.CancellationException if the computation was cancelled
+     * @throws java.util.concurrent.exception.ExecutionException if the computation threw an
      * exception
      * @throws InterruptedException if the current thread is not a
      * member of a ForkJoinPool and was interrupted while waiting
      * @throws TimeoutException if the wait timed out
      */
     public final V get(long timeout, TimeUnit unit)
-        throws InterruptedException, ExecutionException, TimeoutException {
+        throws InterruptedException, java.util.concurrent.exception.ExecutionException, TimeoutException {
         int s;
         long nanos = unit.toNanos(timeout);
         if (Thread.interrupted())
@@ -1046,7 +1051,7 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
                 long ns, ms; // measure in nanosecs, but wait in millisecs
                 while ((s = status) >= 0 &&
                        (ns = deadline - System.nanoTime()) > 0L) {
-                    if ((ms = TimeUnit.NANOSECONDS.toMillis(ns)) > 0L &&
+                    if ((ms = java.util.concurrent.common.TimeUnit.NANOSECONDS.toMillis(ns)) > 0L &&
                         (s = (int)STATUS.getAndBitwiseOr(this, SIGNAL)) >= 0) {
                         synchronized (this) {
                             if (status >= 0)

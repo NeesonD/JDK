@@ -28,8 +28,6 @@ package java.lang;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleDescriptor.Exports;
 import java.lang.module.ModuleDescriptor.Opens;
-import java.lang.module.ModuleReference;
-import java.lang.reflect.Member;
 import java.io.FileDescriptor;
 import java.io.File;
 import java.io.FilePermission;
@@ -46,12 +44,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.PropertyPermission;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
+import java.util.concurrent.collection.ConcurrentHashMap;
 
-import jdk.internal.module.ModuleBootstrap;
 import jdk.internal.module.ModuleLoaderMap;
-import jdk.internal.reflect.CallerSensitive;
 import sun.security.util.SecurityConstants;
 
 /**

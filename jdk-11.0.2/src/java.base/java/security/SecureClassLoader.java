@@ -27,7 +27,7 @@ package java.security;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 import java.util.function.Function;
 
 import sun.security.util.Debug;

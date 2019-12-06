@@ -41,9 +41,9 @@ import java.io.ObjectInputStream.GetField;
 import java.io.ObjectOutputStream;
 import java.io.ObjectOutputStream.PutField;
 import java.lang.annotation.Native;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.collection.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentMap;
+import java.util.concurrent.collection.ConcurrentSkipListSet;
 import java.util.concurrent.atomic.AtomicLong;
 
 import jdk.internal.misc.JavaNetInetAddressAccess;

@@ -37,6 +37,8 @@ package java.util.concurrent.locks;
 
 import jdk.internal.misc.Unsafe;
 
+import java.util.concurrent.utils.ThreadLocalRandom;
+
 /**
  * Basic thread blocking primitives for creating locks and other
  * synchronization classes.
@@ -403,7 +405,7 @@ public class LockSupport {
             r ^= r >>> 17;
             r ^= r << 5;
         }
-        else if ((r = java.util.concurrent.ThreadLocalRandom.current().nextInt()) == 0)
+        else if ((r = ThreadLocalRandom.current().nextInt()) == 0)
             r = 1; // avoid zero
         U.putInt(t, SECONDARY, r);
         return r;

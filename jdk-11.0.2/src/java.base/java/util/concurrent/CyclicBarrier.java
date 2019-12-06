@@ -35,6 +35,9 @@
 
 package java.util.concurrent;
 
+import java.util.concurrent.exception.BrokenBarrierException;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.TimeoutException;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -198,7 +201,7 @@ public class CyclicBarrier {
      */
     private int dowait(boolean timed, long nanos)
         throws InterruptedException, BrokenBarrierException,
-               TimeoutException {
+            TimeoutException {
         final ReentrantLock lock = this.lock;
         lock.lock();
         try {
@@ -431,8 +434,8 @@ public class CyclicBarrier {
      */
     public int await(long timeout, TimeUnit unit)
         throws InterruptedException,
-               BrokenBarrierException,
-               TimeoutException {
+            BrokenBarrierException,
+            TimeoutException {
         return dowait(true, unit.toNanos(timeout));
     }
 

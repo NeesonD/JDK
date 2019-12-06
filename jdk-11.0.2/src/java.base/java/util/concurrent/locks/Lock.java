@@ -35,7 +35,7 @@
 
 package java.util.concurrent.locks;
 
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.common.TimeUnit;
 
 /**
  * {@code Lock} implementations provide more extensive locking

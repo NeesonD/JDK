@@ -29,7 +29,7 @@ import java.nio.file.CopyOption;
 import java.nio.file.OpenOption;
 import java.nio.file.WatchEvent;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 
 /**
  * Provides support for handling JDK-specific OpenOption, CopyOption and

@@ -28,8 +28,8 @@ package sun.security.provider;
 import java.io.*;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentMap;
 
 /**
  * A pool of {@code InputStream}s opened from distinct files. Only a single

@@ -26,8 +26,9 @@
 package sun.nio.fs;
 
 import java.nio.file.*;
-import java.util.concurrent.*;
 import java.io.IOException;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.queue.LinkedBlockingDeque;
 
 /**
  * Base implementation class for watch services.

@@ -26,8 +26,8 @@
 package sun.util.calendar;
 
 import java.util.TimeZone;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentMap;
 
 /**
  * <code>CalendarSystem</code> is an abstract class that defines the

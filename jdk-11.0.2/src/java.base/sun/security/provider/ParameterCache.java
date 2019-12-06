@@ -26,11 +26,10 @@
 package sun.security.provider;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 import java.math.BigInteger;
 
 import java.security.*;
-import java.security.SecureRandom;
 import java.security.spec.*;
 
 import javax.crypto.spec.DHParameterSpec;

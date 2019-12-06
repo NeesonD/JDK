@@ -31,7 +31,7 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectStreamField;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 
 /**
  * The BasicPermission class extends the Permission class, and

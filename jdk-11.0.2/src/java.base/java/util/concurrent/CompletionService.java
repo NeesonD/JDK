@@ -35,6 +35,9 @@
 
 package java.util.concurrent;
 
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.RejectedExecutionException;
+
 /**
  * A service that decouples the production of new asynchronous tasks
  * from the consumption of the results of completed tasks.  Producers
@@ -68,7 +71,7 @@ public interface CompletionService<V> {
      *
      * @param task the task to submit
      * @return a Future representing pending completion of the task
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      * @throws NullPointerException if the task is null
      */

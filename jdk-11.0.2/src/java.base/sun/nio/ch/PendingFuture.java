@@ -28,6 +28,10 @@ package sun.nio.ch;
 import java.nio.channels.*;
 import java.util.concurrent.*;
 import java.io.IOException;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.CancellationException;
+import java.util.concurrent.exception.ExecutionException;
+import java.util.concurrent.exception.TimeoutException;
 
 /**
  * A Future for a pending I/O operation. A PendingFuture allows for the

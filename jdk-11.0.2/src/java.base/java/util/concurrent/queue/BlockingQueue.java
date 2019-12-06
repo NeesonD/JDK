@@ -33,10 +33,11 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.queue;
 
 import java.util.Collection;
 import java.util.Queue;
+import java.util.concurrent.common.TimeUnit;
 
 /**
  * A {@link Queue} that additionally supports operations that wait for

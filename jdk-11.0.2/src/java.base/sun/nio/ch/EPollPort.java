@@ -27,14 +27,13 @@ package sun.nio.ch;
 
 import java.nio.channels.spi.AsynchronousChannelProvider;
 import java.io.IOException;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.queue.ArrayBlockingQueue;
+import java.util.concurrent.exception.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static sun.nio.ch.EPoll.EPOLLIN;
 import static sun.nio.ch.EPoll.EPOLLONESHOT;
 import static sun.nio.ch.EPoll.EPOLL_CTL_ADD;
-import static sun.nio.ch.EPoll.EPOLL_CTL_DEL;
 import static sun.nio.ch.EPoll.EPOLL_CTL_MOD;
 
 

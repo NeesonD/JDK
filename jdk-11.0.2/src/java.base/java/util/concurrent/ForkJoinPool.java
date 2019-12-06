@@ -48,6 +48,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.RejectedExecutionException;
+import java.util.concurrent.utils.ThreadLocalRandom;
 import java.util.function.Predicate;
 import java.util.concurrent.locks.LockSupport;
 
@@ -169,7 +172,7 @@ import java.util.concurrent.locks.LockSupport;
  * {@code IllegalArgumentException}.
  *
  * <p>This implementation rejects submitted tasks (that is, by throwing
- * {@link RejectedExecutionException}) only when the pool is shut down
+ * {@link java.util.concurrent.exception.RejectedExecutionException}) only when the pool is shut down
  * or internal resources have been exhausted.
  *
  * @since 1.7
@@ -837,7 +840,7 @@ public class ForkJoinPool extends AbstractExecutorService {
          * Pushes a task. Call only by owner in unshared queues.
          *
          * @param task the task. Caller must ensure non-null.
-         * @throws RejectedExecutionException if array cannot be resized
+         * @throws java.util.concurrent.exception.RejectedExecutionException if array cannot be resized
          */
         final void push(ForkJoinTask<?> task) {
             ForkJoinTask<?>[] a;
@@ -913,7 +916,7 @@ public class ForkJoinPool extends AbstractExecutorService {
                     phase = 0;
             }
             if (newA == null)
-                throw new RejectedExecutionException("Queue capacity exceeded");
+                throw new java.util.concurrent.exception.RejectedExecutionException("Queue capacity exceeded");
         }
 
         /**
@@ -1572,7 +1575,7 @@ public class ForkJoinPool extends AbstractExecutorService {
                         return 0;
                     }
                     else
-                        throw new RejectedExecutionException(
+                        throw new java.util.concurrent.exception.RejectedExecutionException(
                             "Thread limit exceeded replacing blocked worker");
                 }
             }
@@ -1587,7 +1590,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      * See above for explanation.
      */
     final void runWorker(WorkQueue w) {
-        int r = (w.id ^ ThreadLocalRandom.nextSecondarySeed()) | FIFO; // rng
+        int r = (w.id ^ java.util.concurrent.utils.ThreadLocalRandom.nextSecondarySeed()) | FIFO; // rng
         w.array = new ForkJoinTask<?>[INITIAL_QUEUE_CAPACITY]; // initialize
         for (;;) {
             int phase;
@@ -1681,7 +1684,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      */
     final int awaitJoin(WorkQueue w, ForkJoinTask<?> task, long deadline) {
         int s = 0;
-        int seed = ThreadLocalRandom.nextSecondarySeed();
+        int seed = java.util.concurrent.utils.ThreadLocalRandom.nextSecondarySeed();
         if (w != null && task != null &&
             (!(task instanceof CountedCompleter) ||
              (s = w.helpCC((CountedCompleter<?>)task, 0, false)) >= 0)) {
@@ -1724,7 +1727,7 @@ public class ForkJoinPool extends AbstractExecutorService {
                         ms = 0L;                       // untimed
                     else if ((ns = deadline - System.nanoTime()) <= 0L)
                         break;                         // timeout
-                    else if ((ms = TimeUnit.NANOSECONDS.toMillis(ns)) <= 0L)
+                    else if ((ms = java.util.concurrent.common.TimeUnit.NANOSECONDS.toMillis(ns)) <= 0L)
                         ms = 1L;                       // avoid 0 for timed wait
                     if ((block = tryCompensate(w)) != 0) {
                         task.internalWait(ms);
@@ -1744,7 +1747,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      */
     final void helpQuiescePool(WorkQueue w) {
         int prevSrc = w.source;
-        int seed = ThreadLocalRandom.nextSecondarySeed();
+        int seed = java.util.concurrent.utils.ThreadLocalRandom.nextSecondarySeed();
         int r = seed >>> 16, step = r | 1;
         for (int source = prevSrc, released = -1;;) { // -1 until known
             ForkJoinTask<?> localTask; WorkQueue[] ws;
@@ -1868,16 +1871,16 @@ public class ForkJoinPool extends AbstractExecutorService {
      */
     final void externalPush(ForkJoinTask<?> task) {
         int r;                                // initialize caller's probe
-        if ((r = ThreadLocalRandom.getProbe()) == 0) {
-            ThreadLocalRandom.localInit();
-            r = ThreadLocalRandom.getProbe();
+        if ((r = java.util.concurrent.utils.ThreadLocalRandom.getProbe()) == 0) {
+            java.util.concurrent.utils.ThreadLocalRandom.localInit();
+            r = java.util.concurrent.utils.ThreadLocalRandom.getProbe();
         }
         for (;;) {
             WorkQueue q;
             int md = mode, n;
             WorkQueue[] ws = workQueues;
             if ((md & SHUTDOWN) != 0 || ws == null || (n = ws.length) <= 0)
-                throw new RejectedExecutionException();
+                throw new java.util.concurrent.exception.RejectedExecutionException();
             else if ((q = ws[(n - 1) & r & SQMASK]) == null) { // add queue
                 int qid = (r | QUIET) & ~(FIFO | OWNED);
                 Object lock = workerNamePrefix;
@@ -1897,7 +1900,7 @@ public class ForkJoinPool extends AbstractExecutorService {
                 }
             }
             else if (!q.tryLockPhase()) // move if busy
-                r = ThreadLocalRandom.advanceProbe(r);
+                r = java.util.concurrent.utils.ThreadLocalRandom.advanceProbe(r);
             else {
                 if (q.lockedPush(task))
                     signalWork();
@@ -1927,7 +1930,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      */
     static WorkQueue commonSubmitterQueue() {
         ForkJoinPool p = common;
-        int r = ThreadLocalRandom.getProbe();
+        int r = java.util.concurrent.utils.ThreadLocalRandom.getProbe();
         WorkQueue[] ws; int n;
         return (p != null && (ws = p.workQueues) != null &&
                 (n = ws.length) > 0) ?
@@ -1938,7 +1941,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      * Performs tryUnpush for an external submitter.
      */
     final boolean tryExternalUnpush(ForkJoinTask<?> task) {
-        int r = ThreadLocalRandom.getProbe();
+        int r = java.util.concurrent.utils.ThreadLocalRandom.getProbe();
         WorkQueue[] ws; WorkQueue w; int n;
         return ((ws = workQueues) != null &&
                 (n = ws.length) > 0 &&
@@ -1950,7 +1953,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      * Performs helpComplete for an external submitter.
      */
     final int externalHelpComplete(CountedCompleter<?> task, int maxTasks) {
-        int r = ThreadLocalRandom.getProbe();
+        int r = java.util.concurrent.utils.ThreadLocalRandom.getProbe();
         WorkQueue[] ws; WorkQueue w; int n;
         return ((ws = workQueues) != null && (n = ws.length) > 0 &&
                 (w = ws[(n - 1) & r & SQMASK]) != null) ?
@@ -2133,7 +2136,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      * java.lang.Runtime#availableProcessors}, using defaults for all
      * other parameters (see {@link #ForkJoinPool(int,
      * ForkJoinWorkerThreadFactory, UncaughtExceptionHandler, boolean,
-     * int, int, int, Predicate, long, TimeUnit)}).
+     * int, int, int, Predicate, long, java.util.concurrent.common.TimeUnit)}).
      *
      * @throws SecurityException if a security manager exists and
      *         the caller is not permitted to modify threads
@@ -2143,7 +2146,7 @@ public class ForkJoinPool extends AbstractExecutorService {
     public ForkJoinPool() {
         this(Math.min(MAX_CAP, Runtime.getRuntime().availableProcessors()),
              defaultForkJoinWorkerThreadFactory, null, false,
-             0, MAX_CAP, 1, null, DEFAULT_KEEPALIVE, TimeUnit.MILLISECONDS);
+             0, MAX_CAP, 1, null, DEFAULT_KEEPALIVE, java.util.concurrent.common.TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -2151,7 +2154,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      * level, using defaults for all other parameters (see {@link
      * #ForkJoinPool(int, ForkJoinWorkerThreadFactory,
      * UncaughtExceptionHandler, boolean, int, int, int, Predicate,
-     * long, TimeUnit)}).
+     * long, java.util.concurrent.common.TimeUnit)}).
      *
      * @param parallelism the parallelism level
      * @throws IllegalArgumentException if parallelism less than or
@@ -2163,7 +2166,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      */
     public ForkJoinPool(int parallelism) {
         this(parallelism, defaultForkJoinWorkerThreadFactory, null, false,
-             0, MAX_CAP, 1, null, DEFAULT_KEEPALIVE, TimeUnit.MILLISECONDS);
+             0, MAX_CAP, 1, null, DEFAULT_KEEPALIVE, java.util.concurrent.common.TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -2198,7 +2201,7 @@ public class ForkJoinPool extends AbstractExecutorService {
                         UncaughtExceptionHandler handler,
                         boolean asyncMode) {
         this(parallelism, factory, handler, asyncMode,
-             0, MAX_CAP, 1, null, DEFAULT_KEEPALIVE, TimeUnit.MILLISECONDS);
+             0, MAX_CAP, 1, null, DEFAULT_KEEPALIVE, java.util.concurrent.common.TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -2257,7 +2260,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      * default, when a thread is about to block on a join or {@link
      * ManagedBlocker}, but cannot be replaced because the
      * maximumPoolSize would be exceeded, a {@link
-     * RejectedExecutionException} is thrown.  But if this predicate
+     * java.util.concurrent.exception.RejectedExecutionException} is thrown.  But if this predicate
      * returns {@code true}, then no exception is thrown, so the pool
      * continues to operate with fewer than the target number of
      * runnable threads, which might not ensure progress.
@@ -2288,7 +2291,7 @@ public class ForkJoinPool extends AbstractExecutorService {
                         int minimumRunnable,
                         Predicate<? super ForkJoinPool> saturate,
                         long keepAliveTime,
-                        TimeUnit unit) {
+                        java.util.concurrent.common.TimeUnit unit) {
         // check, encode, pack parameters
         if (parallelism <= 0 || parallelism > MAX_CAP ||
             maximumPoolSize < parallelism || keepAliveTime <= 0L)
@@ -2413,7 +2416,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      * @param <T> the type of the task's result
      * @return the task's result
      * @throws NullPointerException if the task is null
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      */
     public <T> T invoke(ForkJoinTask<T> task) {
@@ -2428,7 +2431,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      *
      * @param task the task
      * @throws NullPointerException if the task is null
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      */
     public void execute(ForkJoinTask<?> task) {
@@ -2439,7 +2442,7 @@ public class ForkJoinPool extends AbstractExecutorService {
 
     /**
      * @throws NullPointerException if the task is null
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      */
     public void execute(Runnable task) {
@@ -2460,7 +2463,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      * @param <T> the type of the task's result
      * @return the task
      * @throws NullPointerException if the task is null
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      */
     public <T> ForkJoinTask<T> submit(ForkJoinTask<T> task) {
@@ -2469,7 +2472,7 @@ public class ForkJoinPool extends AbstractExecutorService {
 
     /**
      * @throws NullPointerException if the task is null
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      */
     public <T> ForkJoinTask<T> submit(Callable<T> task) {
@@ -2478,7 +2481,7 @@ public class ForkJoinPool extends AbstractExecutorService {
 
     /**
      * @throws NullPointerException if the task is null
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      */
     public <T> ForkJoinTask<T> submit(Runnable task, T result) {
@@ -2487,7 +2490,7 @@ public class ForkJoinPool extends AbstractExecutorService {
 
     /**
      * @throws NullPointerException if the task is null
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      */
     @SuppressWarnings("unchecked")
@@ -2922,7 +2925,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      * is interrupted, whichever happens first. Because the {@link
      * #commonPool()} never terminates until program shutdown, when
      * applied to the common pool, this method is equivalent to {@link
-     * #awaitQuiescence(long, TimeUnit)} but always returns {@code false}.
+     * #awaitQuiescence(long, java.util.concurrent.common.TimeUnit)} but always returns {@code false}.
      *
      * @param timeout the maximum time to wait
      * @param unit the time unit of the timeout argument
@@ -2930,7 +2933,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      *         {@code false} if the timeout elapsed before termination
      * @throws InterruptedException if interrupted while waiting
      */
-    public boolean awaitTermination(long timeout, TimeUnit unit)
+    public boolean awaitTermination(long timeout, java.util.concurrent.common.TimeUnit unit)
         throws InterruptedException {
         if (Thread.interrupted())
             throw new InterruptedException();
@@ -2950,7 +2953,7 @@ public class ForkJoinPool extends AbstractExecutorService {
                     return true;
                 if (nanos <= 0L)
                     return false;
-                long millis = TimeUnit.NANOSECONDS.toMillis(nanos);
+                long millis = java.util.concurrent.common.TimeUnit.NANOSECONDS.toMillis(nanos);
                 wait(millis > 0L ? millis : 1L);
                 nanos = deadline - System.nanoTime();
             }
@@ -2968,7 +2971,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      * @return {@code true} if quiescent; {@code false} if the
      * timeout elapsed.
      */
-    public boolean awaitQuiescence(long timeout, TimeUnit unit) {
+    public boolean awaitQuiescence(long timeout, java.util.concurrent.common.TimeUnit unit) {
         long nanos = unit.toNanos(timeout);
         ForkJoinWorkerThread wt;
         Thread thread = Thread.currentThread();
@@ -2997,7 +3000,7 @@ public class ForkJoinPool extends AbstractExecutorService {
      * until the {@link #commonPool()} {@link #isQuiescent}.
      */
     static void quiesceCommonPool() {
-        common.awaitQuiescence(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        common.awaitQuiescence(Long.MAX_VALUE, java.util.concurrent.common.TimeUnit.NANOSECONDS);
     }
 
     /**
@@ -3142,7 +3145,7 @@ public class ForkJoinPool extends AbstractExecutorService {
             if (thread instanceof ForkJoinWorkerThread &&
                 (wt = (ForkJoinWorkerThread)thread).pool == p)
                 w = wt.workQueue;
-            else if ((r = ThreadLocalRandom.getProbe()) != 0 &&
+            else if ((r = java.util.concurrent.utils.ThreadLocalRandom.getProbe()) != 0 &&
                      (ws = p.workQueues) != null && (n = ws.length) > 0)
                 w = ws[(n - 1) & r & SQMASK];
             else

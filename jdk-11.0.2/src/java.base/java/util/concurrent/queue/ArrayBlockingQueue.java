@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.queue;
 
 import java.lang.ref.WeakReference;
 import java.util.AbstractQueue;
@@ -44,13 +44,15 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.concurrent.Helpers;
+import java.util.concurrent.common.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * A bounded {@linkplain BlockingQueue blocking queue} backed by an
+ * A bounded {@linkplain java.util.concurrent.BlockingQueue blocking queue} backed by an
  * array.  This queue orders elements FIFO (first-in-first-out).  The
  * <em>head</em> of the queue is that element that has been on the
  * queue the longest time.  The <em>tail</em> of the queue is that

@@ -220,7 +220,7 @@ abstract class SeedGenerator {
     /*
      * Include network adapter names and, if available, a Mac address
      *
-     * See also java.util.concurrent.ThreadLocalRandom.initialSeed()
+     * See also java.util.concurrent.utils.ThreadLocalRandom.initialSeed()
      */
     private static void addNetworkAdapterInfo(MessageDigest md) {
 

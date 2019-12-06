@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.queue;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
@@ -48,6 +48,8 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.SortedSet;
 import java.util.Spliterator;
+import java.util.concurrent.Helpers;
+import java.util.concurrent.common.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
@@ -55,7 +57,7 @@ import java.util.function.Predicate;
 import jdk.internal.misc.SharedSecrets;
 
 /**
- * An unbounded {@linkplain BlockingQueue blocking queue} that uses
+ * An unbounded {@linkplain java.util.concurrent.BlockingQueue blocking queue} that uses
  * the same ordering rules as class {@link PriorityQueue} and supplies
  * blocking retrieval operations.  While this queue is logically
  * unbounded, attempted additions may fail due to resource exhaustion
@@ -112,7 +114,7 @@ import jdk.internal.misc.SharedSecrets;
  */
 @SuppressWarnings("unchecked")
 public class PriorityBlockingQueue<E> extends AbstractQueue<E>
-    implements BlockingQueue<E>, java.io.Serializable {
+    implements java.util.concurrent.BlockingQueue<E>, java.io.Serializable {
     private static final long serialVersionUID = 5595510919245408276L;
 
     /*
@@ -518,7 +520,7 @@ public class PriorityBlockingQueue<E> extends AbstractQueue<E>
      * @param timeout This parameter is ignored as the method never blocks
      * @param unit This parameter is ignored as the method never blocks
      * @return {@code true} (as specified by
-     *  {@link BlockingQueue#offer(Object,long,TimeUnit) BlockingQueue.offer})
+     *  {@link BlockingQueue#offer(Object,long, TimeUnit) BlockingQueue.offer})
      * @throws ClassCastException if the specified element cannot be compared
      *         with elements currently in the priority queue according to the
      *         priority queue's ordering

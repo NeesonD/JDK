@@ -24,6 +24,8 @@
  */
 package java.util;
 
+import java.util.concurrent.collection.ConcurrentHashMap;
+import java.util.concurrent.collection.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
@@ -145,11 +147,11 @@ import java.util.function.LongConsumer;
  * <ul>
  * <li>The source cannot be structurally interfered with.
  * <br>For example, an instance of
- * {@link java.util.concurrent.CopyOnWriteArrayList} is an immutable source.
+ * {@link CopyOnWriteArrayList} is an immutable source.
  * A Spliterator created from the source reports a characteristic of
  * {@code IMMUTABLE}.</li>
  * <li>The source manages concurrent modifications.
- * <br>For example, a key set of a {@link java.util.concurrent.ConcurrentHashMap}
+ * <br>For example, a key set of a {@link ConcurrentHashMap}
  * is a concurrent source.  A Spliterator created from the source reports a
  * characteristic of {@code CONCURRENT}.</li>
  * <li>The mutable source provides a late-binding and fail-fast Spliterator.

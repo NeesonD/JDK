@@ -31,7 +31,7 @@ import jdk.internal.misc.SharedSecrets;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 

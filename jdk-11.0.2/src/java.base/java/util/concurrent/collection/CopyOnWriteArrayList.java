@@ -32,7 +32,7 @@
  * All rights reserved.
  */
 
-package java.util.concurrent;
+package java.util.concurrent.collection;
 
 import java.lang.invoke.VarHandle;
 import java.lang.reflect.Field;

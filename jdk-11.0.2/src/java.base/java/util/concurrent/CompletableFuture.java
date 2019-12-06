@@ -37,6 +37,11 @@ package java.util.concurrent;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.CancellationException;
+import java.util.concurrent.exception.CompletionException;
+import java.util.concurrent.exception.ExecutionException;
+import java.util.concurrent.exception.TimeoutException;
 import java.util.concurrent.locks.LockSupport;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -102,8 +107,8 @@ import java.util.function.Supplier;
  * CompletableFuture completed in any exceptional fashion.
  *
  * <li>In case of exceptional completion with a CompletionException,
- * methods {@link #get()} and {@link #get(long, TimeUnit)} throw an
- * {@link ExecutionException} with the same cause as held in the
+ * methods {@link #get()} and {@link #get(long, java.util.concurrent.common.TimeUnit)} throw an
+ * {@link java.util.concurrent.exception.ExecutionException} with the same cause as held in the
  * corresponding CompletionException.  To simplify usage in most
  * contexts, this class also defines methods {@link #join()} and
  * {@link #getNow} that instead throw the CompletionException directly
@@ -310,8 +315,8 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
      * wrapped CompletionException unless it is one already.
      */
     static AltResult encodeThrowable(Throwable x) {
-        return new AltResult((x instanceof CompletionException) ? x :
-                             new CompletionException(x));
+        return new AltResult((x instanceof java.util.concurrent.exception.CompletionException) ? x :
+                             new java.util.concurrent.exception.CompletionException(x));
     }
 
     /** Completes with an exceptional result, unless already completed. */
@@ -327,8 +332,8 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
      * relay of an existing CompletionException.
      */
     static Object encodeThrowable(Throwable x, Object r) {
-        if (!(x instanceof CompletionException))
-            x = new CompletionException(x);
+        if (!(x instanceof java.util.concurrent.exception.CompletionException))
+            x = new java.util.concurrent.exception.CompletionException(x);
         else if (r instanceof AltResult && x == ((AltResult)r).ex)
             return r;
         return new AltResult(x);
@@ -363,8 +368,8 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
         Throwable x;
         if (r instanceof AltResult
             && (x = ((AltResult)r).ex) != null
-            && !(x instanceof CompletionException))
-            r = new AltResult(new CompletionException(x));
+            && !(x instanceof java.util.concurrent.exception.CompletionException))
+            r = new AltResult(new java.util.concurrent.exception.CompletionException(x));
         return r;
     }
 
@@ -380,19 +385,19 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
      * Reports result using Future.get conventions.
      */
     private static Object reportGet(Object r)
-        throws InterruptedException, ExecutionException {
+        throws InterruptedException, java.util.concurrent.exception.ExecutionException {
         if (r == null) // by convention below, null means interrupted
             throw new InterruptedException();
         if (r instanceof AltResult) {
             Throwable x, cause;
             if ((x = ((AltResult)r).ex) == null)
                 return null;
-            if (x instanceof CancellationException)
-                throw (CancellationException)x;
-            if ((x instanceof CompletionException) &&
+            if (x instanceof java.util.concurrent.exception.CancellationException)
+                throw (java.util.concurrent.exception.CancellationException)x;
+            if ((x instanceof java.util.concurrent.exception.CompletionException) &&
                 (cause = x.getCause()) != null)
                 x = cause;
-            throw new ExecutionException(x);
+            throw new java.util.concurrent.exception.ExecutionException(x);
         }
         return r;
     }
@@ -405,11 +410,11 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
             Throwable x;
             if ((x = ((AltResult)r).ex) == null)
                 return null;
-            if (x instanceof CancellationException)
-                throw (CancellationException)x;
-            if (x instanceof CompletionException)
-                throw (CompletionException)x;
-            throw new CompletionException(x);
+            if (x instanceof java.util.concurrent.exception.CancellationException)
+                throw (java.util.concurrent.exception.CancellationException)x;
+            if (x instanceof java.util.concurrent.exception.CompletionException)
+                throw (java.util.concurrent.exception.CompletionException)x;
+            throw new java.util.concurrent.exception.CompletionException(x);
         }
         return r;
     }
@@ -1986,13 +1991,13 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
      * returns its result.
      *
      * @return the result value
-     * @throws CancellationException if this future was cancelled
-     * @throws ExecutionException if this future completed exceptionally
+     * @throws java.util.concurrent.exception.CancellationException if this future was cancelled
+     * @throws java.util.concurrent.exception.ExecutionException if this future completed exceptionally
      * @throws InterruptedException if the current thread was interrupted
      * while waiting
      */
     @SuppressWarnings("unchecked")
-    public T get() throws InterruptedException, ExecutionException {
+    public T get() throws InterruptedException, java.util.concurrent.exception.ExecutionException {
         Object r;
         if ((r = result) == null)
             r = waitingGet(true);
@@ -2006,14 +2011,14 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
      * @param timeout the maximum time to wait
      * @param unit the time unit of the timeout argument
      * @return the result value
-     * @throws CancellationException if this future was cancelled
-     * @throws ExecutionException if this future completed exceptionally
+     * @throws java.util.concurrent.exception.CancellationException if this future was cancelled
+     * @throws java.util.concurrent.exception.ExecutionException if this future completed exceptionally
      * @throws InterruptedException if the current thread was interrupted
      * while waiting
      * @throws TimeoutException if the wait timed out
      */
     @SuppressWarnings("unchecked")
-    public T get(long timeout, TimeUnit unit)
+    public T get(long timeout, java.util.concurrent.common.TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException {
         long nanos = unit.toNanos(timeout);
         Object r;
@@ -2028,12 +2033,12 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
      * conform with the use of common functional forms, if a
      * computation involved in the completion of this
      * CompletableFuture threw an exception, this method throws an
-     * (unchecked) {@link CompletionException} with the underlying
+     * (unchecked) {@link java.util.concurrent.exception.CompletionException} with the underlying
      * exception as its cause.
      *
      * @return the result value
-     * @throws CancellationException if the computation was cancelled
-     * @throws CompletionException if this future completed
+     * @throws java.util.concurrent.exception.CancellationException if the computation was cancelled
+     * @throws java.util.concurrent.exception.CompletionException if this future completed
      * exceptionally or a completion computation threw an exception
      */
     @SuppressWarnings("unchecked")
@@ -2050,8 +2055,8 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
      *
      * @param valueIfAbsent the value to return if not completed
      * @return the result value, if completed, else the given valueIfAbsent
-     * @throws CancellationException if the computation was cancelled
-     * @throws CompletionException if this future completed
+     * @throws java.util.concurrent.exception.CancellationException if the computation was cancelled
+     * @throws java.util.concurrent.exception.CompletionException if this future completed
      * exceptionally or a completion computation threw an exception
      */
     @SuppressWarnings("unchecked")
@@ -2381,7 +2386,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
 
     /**
      * If not already completed, completes this CompletableFuture with
-     * a {@link CancellationException}. Dependent CompletableFutures
+     * a {@link java.util.concurrent.exception.CancellationException}. Dependent CompletableFutures
      * that have not already completed will also complete
      * exceptionally, with a {@link CompletionException} caused by
      * this {@code CancellationException}.
@@ -2394,7 +2399,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
      */
     public boolean cancel(boolean mayInterruptIfRunning) {
         boolean cancelled = (result == null) &&
-            internalComplete(new AltResult(new CancellationException()));
+            internalComplete(new AltResult(new java.util.concurrent.exception.CancellationException()));
         postComplete();
         return cancelled || isCancelled();
     }
@@ -2618,7 +2623,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
      * @return this CompletableFuture
      * @since 9
      */
-    public CompletableFuture<T> orTimeout(long timeout, TimeUnit unit) {
+    public CompletableFuture<T> orTimeout(long timeout, java.util.concurrent.common.TimeUnit unit) {
         if (unit == null)
             throw new NullPointerException();
         if (result == null)
@@ -2640,7 +2645,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
      * @since 9
      */
     public CompletableFuture<T> completeOnTimeout(T value, long timeout,
-                                                  TimeUnit unit) {
+                                                  java.util.concurrent.common.TimeUnit unit) {
         if (unit == null)
             throw new NullPointerException();
         if (result == null)
@@ -2663,7 +2668,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
      * @return the new delayed executor
      * @since 9
      */
-    public static Executor delayedExecutor(long delay, TimeUnit unit,
+    public static Executor delayedExecutor(long delay, java.util.concurrent.common.TimeUnit unit,
                                            Executor executor) {
         if (unit == null || executor == null)
             throw new NullPointerException();
@@ -2682,7 +2687,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
      * @return the new delayed executor
      * @since 9
      */
-    public static Executor delayedExecutor(long delay, TimeUnit unit) {
+    public static Executor delayedExecutor(long delay, java.util.concurrent.common.TimeUnit unit) {
         if (unit == null)
             throw new NullPointerException();
         return new DelayedExecutor(delay, unit, ASYNC_POOL);
@@ -2737,7 +2742,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
      */
     static final class Delayer {
         static ScheduledFuture<?> delay(Runnable command, long delay,
-                                        TimeUnit unit) {
+                                        java.util.concurrent.common.TimeUnit unit) {
             return delayer.schedule(command, delay, unit);
         }
 
@@ -2762,7 +2767,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
 
     static final class DelayedExecutor implements Executor {
         final long delay;
-        final TimeUnit unit;
+        final java.util.concurrent.common.TimeUnit unit;
         final Executor executor;
         DelayedExecutor(long delay, TimeUnit unit, Executor executor) {
             this.delay = delay; this.unit = unit; this.executor = executor;
@@ -2824,7 +2829,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
             return new MinimalStage<U>(); }
         @Override public T get() {
             throw new UnsupportedOperationException(); }
-        @Override public T get(long timeout, TimeUnit unit) {
+        @Override public T get(long timeout, java.util.concurrent.common.TimeUnit unit) {
             throw new UnsupportedOperationException(); }
         @Override public T getNow(T valueIfAbsent) {
             throw new UnsupportedOperationException(); }
@@ -2855,10 +2860,10 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
             (Supplier<? extends T> supplier) {
             throw new UnsupportedOperationException(); }
         @Override public CompletableFuture<T> orTimeout
-            (long timeout, TimeUnit unit) {
+            (long timeout, java.util.concurrent.common.TimeUnit unit) {
             throw new UnsupportedOperationException(); }
         @Override public CompletableFuture<T> completeOnTimeout
-            (T value, long timeout, TimeUnit unit) {
+            (T value, long timeout, java.util.concurrent.common.TimeUnit unit) {
             throw new UnsupportedOperationException(); }
         @Override public CompletableFuture<T> toCompletableFuture() {
             Object r;

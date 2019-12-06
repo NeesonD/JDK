@@ -26,7 +26,7 @@ package java.util.stream;
 
 import java.util.Objects;
 import java.util.Spliterator;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 import java.util.concurrent.CountedCompleter;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;

@@ -38,7 +38,10 @@ package java.util.concurrent;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.TimeoutException;
 import java.util.concurrent.locks.LockSupport;
+import java.util.concurrent.queue.SynchronousQueue;
 
 /**
  * A synchronization point at which threads can pair and swap elements

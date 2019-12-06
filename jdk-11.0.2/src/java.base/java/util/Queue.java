@@ -35,6 +35,8 @@
 
 package java.util;
 
+import java.util.concurrent.queue.BlockingQueue;
+
 /**
  * A collection designed for holding elements prior to processing.
  * Besides basic {@link Collection} operations, queues provide
@@ -109,7 +111,7 @@ package java.util;
  * <p>The {@code Queue} interface does not define the <i>blocking queue
  * methods</i>, which are common in concurrent programming.  These methods,
  * which wait for elements to appear or for space to become available, are
- * defined in the {@link java.util.concurrent.BlockingQueue} interface, which
+ * defined in the {@link BlockingQueue} interface, which
  * extends this interface.
  *
  * <p>{@code Queue} implementations generally do not allow insertion

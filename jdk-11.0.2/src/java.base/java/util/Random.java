@@ -26,6 +26,7 @@
 package java.util;
 import java.io.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.utils.ThreadLocalRandom;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
@@ -62,7 +63,7 @@ import jdk.internal.misc.Unsafe;
  * However, the concurrent use of the same {@code java.util.Random}
  * instance across threads may encounter contention and consequent
  * poor performance. Consider instead using
- * {@link java.util.concurrent.ThreadLocalRandom} in multithreaded
+ * {@link ThreadLocalRandom} in multithreaded
  * designs.
  *
  * <p>Instances of {@code java.util.Random} are not cryptographically

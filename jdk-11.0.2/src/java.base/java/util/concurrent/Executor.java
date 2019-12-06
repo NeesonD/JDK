@@ -35,6 +35,9 @@
 
 package java.util.concurrent;
 
+import java.util.concurrent.exception.RejectedExecutionException;
+import java.util.concurrent.utils.Executors;
+
 /**
  * An object that executes submitted {@link Runnable} tasks. This
  * interface provides a way of decoupling task submission from the

@@ -31,9 +31,7 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectStreamField;
 import java.io.Serializable;
 import java.security.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 import sun.security.util.SecurityConstants;
 
 /**

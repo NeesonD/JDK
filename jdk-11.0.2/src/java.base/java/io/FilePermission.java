@@ -32,7 +32,7 @@ import java.util.Enumeration;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.Vector;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 
 import jdk.internal.misc.JavaIOFilePermissionAccess;
 import jdk.internal.misc.SharedSecrets;

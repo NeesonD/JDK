@@ -41,14 +41,21 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.RejectedExecutionException;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.queue.ArrayBlockingQueue;
+import java.util.concurrent.queue.BlockingQueue;
+import java.util.concurrent.queue.LinkedBlockingQueue;
+import java.util.concurrent.queue.SynchronousQueue;
+import java.util.concurrent.utils.Executors;
 
 /**
  * An {@link ExecutorService} that executes each submitted task using
  * one of possibly several pooled threads, normally configured
- * using {@link Executors} factory methods.
+ * using {@link java.util.concurrent.utils.Executors} factory methods.
  *
  * <p>Thread pools address two different problems: they usually
  * provide improved performance when executing large numbers of
@@ -61,11 +68,11 @@ import java.util.concurrent.locks.ReentrantLock;
  * <p>To be useful across a wide range of contexts, this class
  * provides many adjustable parameters and extensibility
  * hooks. However, programmers are urged to use the more convenient
- * {@link Executors} factory methods {@link
- * Executors#newCachedThreadPool} (unbounded thread pool, with
- * automatic thread reclamation), {@link Executors#newFixedThreadPool}
+ * {@link java.util.concurrent.utils.Executors} factory methods {@link
+ * java.util.concurrent.utils.Executors#newCachedThreadPool} (unbounded thread pool, with
+ * automatic thread reclamation), {@link java.util.concurrent.utils.Executors#newFixedThreadPool}
  * (fixed size thread pool) and {@link
- * Executors#newSingleThreadExecutor} (single background thread), that
+ * java.util.concurrent.utils.Executors#newSingleThreadExecutor} (single background thread), that
  * preconfigure settings for the most common usage
  * scenarios. Otherwise, use the following guide when manually
  * configuring and tuning this class:
@@ -104,7 +111,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * <dt>Creating new threads</dt>
  *
  * <dd>New threads are created using a {@link ThreadFactory}.  If not
- * otherwise specified, a {@link Executors#defaultThreadFactory} is
+ * otherwise specified, a {@link java.util.concurrent.utils.Executors#defaultThreadFactory} is
  * used, that creates threads to all be in the same {@link
  * ThreadGroup} and with the same {@code NORM_PRIORITY} priority and
  * non-daemon status. By supplying a different ThreadFactory, you can
@@ -122,13 +129,13 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * <dd>If the pool currently has more than corePoolSize threads,
  * excess threads will be terminated if they have been idle for more
- * than the keepAliveTime (see {@link #getKeepAliveTime(TimeUnit)}).
+ * than the keepAliveTime (see {@link #getKeepAliveTime(java.util.concurrent.common.TimeUnit)}).
  * This provides a means of reducing resource consumption when the
  * pool is not being actively used. If the pool becomes more active
  * later, new threads will be constructed. This parameter can also be
  * changed dynamically using method {@link #setKeepAliveTime(long,
- * TimeUnit)}.  Using a value of {@code Long.MAX_VALUE} {@link
- * TimeUnit#NANOSECONDS} effectively disables idle threads from ever
+ * java.util.concurrent.common.TimeUnit)}.  Using a value of {@code Long.MAX_VALUE} {@link
+ * java.util.concurrent.common.TimeUnit#NANOSECONDS} effectively disables idle threads from ever
  * terminating prior to shut down. By default, the keep-alive policy
  * applies only when there are more than corePoolSize threads, but
  * method {@link #allowCoreThreadTimeOut(boolean)} can be used to
@@ -137,7 +144,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * <dt>Queuing</dt>
  *
- * <dd>Any {@link BlockingQueue} may be used to transfer and hold
+ * <dd>Any {@link java.util.concurrent.queue.BlockingQueue} may be used to transfer and hold
  * submitted tasks.  The use of this queue interacts with pool sizing:
  *
  * <ul>
@@ -214,7 +221,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * <ol>
  *
  * <li>In the default {@link ThreadPoolExecutor.AbortPolicy}, the handler
- * throws a runtime {@link RejectedExecutionException} upon rejection.
+ * throws a runtime {@link java.util.concurrent.exception.RejectedExecutionException} upon rejection.
  *
  * <li>In {@link ThreadPoolExecutor.CallerRunsPolicy}, the thread
  * that invokes {@code execute} itself runs the task. This provides a
@@ -444,7 +451,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * return null even if it may later return non-null when delays
      * expire.
      */
-    private final BlockingQueue<Runnable> workQueue;
+    private final java.util.concurrent.queue.BlockingQueue<Runnable> workQueue;
 
     /**
      * Lock held on access to workers set and related bookkeeping.
@@ -840,7 +847,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * elements, it deletes them one by one.
      */
     private List<Runnable> drainQueue() {
-        BlockingQueue<Runnable> q = workQueue;
+        java.util.concurrent.queue.BlockingQueue<Runnable> q = workQueue;
         ArrayList<Runnable> taskList = new ArrayList<>();
         q.drainTo(taskList);
         if (!q.isEmpty()) {
@@ -1050,7 +1057,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
 
             try {
                 Runnable r = timed ?
-                    workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) :
+                    workQueue.poll(keepAliveTime, java.util.concurrent.common.TimeUnit.NANOSECONDS) :
                     workQueue.take();
                 if (r != null)
                     return r;
@@ -1150,7 +1157,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * parameters, the default thread factory and the default rejected
      * execution handler.
      *
-     * <p>It may be more convenient to use one of the {@link Executors}
+     * <p>It may be more convenient to use one of the {@link java.util.concurrent.utils.Executors}
      * factory methods instead of this general purpose constructor.
      *
      * @param corePoolSize the number of threads to keep in the pool, even
@@ -1174,10 +1181,10 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
     public ThreadPoolExecutor(int corePoolSize,
                               int maximumPoolSize,
                               long keepAliveTime,
-                              TimeUnit unit,
-                              BlockingQueue<Runnable> workQueue) {
+                              java.util.concurrent.common.TimeUnit unit,
+                              java.util.concurrent.queue.BlockingQueue<Runnable> workQueue) {
         this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
-             Executors.defaultThreadFactory(), defaultHandler);
+             java.util.concurrent.utils.Executors.defaultThreadFactory(), defaultHandler);
     }
 
     /**
@@ -1209,8 +1216,8 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
     public ThreadPoolExecutor(int corePoolSize,
                               int maximumPoolSize,
                               long keepAliveTime,
-                              TimeUnit unit,
-                              BlockingQueue<Runnable> workQueue,
+                              java.util.concurrent.common.TimeUnit unit,
+                              java.util.concurrent.queue.BlockingQueue<Runnable> workQueue,
                               ThreadFactory threadFactory) {
         this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
              threadFactory, defaultHandler);
@@ -1219,7 +1226,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
     /**
      * Creates a new {@code ThreadPoolExecutor} with the given initial
      * parameters and
-     * {@linkplain Executors#defaultThreadFactory default thread factory}.
+     * {@linkplain java.util.concurrent.utils.Executors#defaultThreadFactory default thread factory}.
      *
      * @param corePoolSize the number of threads to keep in the pool, even
      *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
@@ -1245,8 +1252,8 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
     public ThreadPoolExecutor(int corePoolSize,
                               int maximumPoolSize,
                               long keepAliveTime,
-                              TimeUnit unit,
-                              BlockingQueue<Runnable> workQueue,
+                              java.util.concurrent.common.TimeUnit unit,
+                              java.util.concurrent.queue.BlockingQueue<Runnable> workQueue,
                               RejectedExecutionHandler handler) {
         this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
              Executors.defaultThreadFactory(), handler);
@@ -1282,8 +1289,8 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
     public ThreadPoolExecutor(int corePoolSize,
                               int maximumPoolSize,
                               long keepAliveTime,
-                              TimeUnit unit,
-                              BlockingQueue<Runnable> workQueue,
+                              java.util.concurrent.common.TimeUnit unit,
+                              java.util.concurrent.queue.BlockingQueue<Runnable> workQueue,
                               ThreadFactory threadFactory,
                               RejectedExecutionHandler handler) {
         if (corePoolSize < 0 ||
@@ -1310,7 +1317,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * the task is handled by the current {@link RejectedExecutionHandler}.
      *
      * @param command the task to execute
-     * @throws RejectedExecutionException at discretion of
+     * @throws java.util.concurrent.exception.RejectedExecutionException at discretion of
      *         {@code RejectedExecutionHandler}, if the task
      *         cannot be accepted for execution
      * @throws NullPointerException if {@code command} is null
@@ -1442,7 +1449,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         return runStateAtLeast(ctl.get(), TERMINATED);
     }
 
-    public boolean awaitTermination(long timeout, TimeUnit unit)
+    public boolean awaitTermination(long timeout, java.util.concurrent.common.TimeUnit unit)
         throws InterruptedException {
         long nanos = unit.toNanos(timeout);
         final ReentrantLock mainLock = this.mainLock;
@@ -1687,7 +1694,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      * @param unit the time unit of the {@code time} argument
      * @throws IllegalArgumentException if {@code time} less than zero or
      *         if {@code time} is zero and {@code allowsCoreThreadTimeOut}
-     * @see #getKeepAliveTime(TimeUnit)
+     * @see #getKeepAliveTime(java.util.concurrent.common.TimeUnit)
      */
     public void setKeepAliveTime(long time, TimeUnit unit) {
         if (time < 0)
@@ -1711,10 +1718,10 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      *
      * @param unit the desired time unit of the result
      * @return the time limit
-     * @see #setKeepAliveTime(long, TimeUnit)
+     * @see #setKeepAliveTime(long, java.util.concurrent.common.TimeUnit)
      */
-    public long getKeepAliveTime(TimeUnit unit) {
-        return unit.convert(keepAliveTime, TimeUnit.NANOSECONDS);
+    public long getKeepAliveTime(java.util.concurrent.common.TimeUnit unit) {
+        return unit.convert(keepAliveTime, java.util.concurrent.common.TimeUnit.NANOSECONDS);
     }
 
     /* User-level queue utilities */
@@ -1727,7 +1734,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      *
      * @return the task queue
      */
-    public BlockingQueue<Runnable> getQueue() {
+    public java.util.concurrent.queue.BlockingQueue<Runnable> getQueue() {
         return workQueue;
     }
 
@@ -2031,7 +2038,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
 
     /**
      * A handler for rejected tasks that throws a
-     * {@link RejectedExecutionException}.
+     * {@link java.util.concurrent.exception.RejectedExecutionException}.
      *
      * This is the default handler for {@link ThreadPoolExecutor} and
      * {@link ScheduledThreadPoolExecutor}.
@@ -2047,7 +2054,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
          *
          * @param r the runnable task requested to be executed
          * @param e the executor attempting to execute this task
-         * @throws RejectedExecutionException always
+         * @throws java.util.concurrent.exception.RejectedExecutionException always
          */
         public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
             throw new RejectedExecutionException("Task " + r.toString() +

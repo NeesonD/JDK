@@ -28,8 +28,9 @@ package sun.nio.ch;
 import java.util.concurrent.*;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.concurrent.utils.Executors;
+
 import sun.security.action.GetPropertyAction;
-import sun.security.action.GetIntegerAction;
 import jdk.internal.misc.InnocuousThread;
 
 /**

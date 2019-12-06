@@ -37,7 +37,12 @@ package java.util.concurrent;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.CancellationException;
+import java.util.concurrent.exception.ExecutionException;
+import java.util.concurrent.exception.TimeoutException;
 import java.util.concurrent.locks.LockSupport;
+import java.util.concurrent.utils.Executors;
 
 /**
  * A cancellable asynchronous computation.  This class provides a base
@@ -113,13 +118,13 @@ public class FutureTask<V> implements RunnableFuture<V> {
      * @param s completed state value
      */
     @SuppressWarnings("unchecked")
-    private V report(int s) throws ExecutionException {
+    private V report(int s) throws java.util.concurrent.exception.ExecutionException {
         Object x = outcome;
         if (s == NORMAL)
             return (V)x;
         if (s >= CANCELLED)
-            throw new CancellationException();
-        throw new ExecutionException((Throwable)x);
+            throw new java.util.concurrent.exception.CancellationException();
+        throw new java.util.concurrent.exception.ExecutionException((Throwable)x);
     }
 
     /**
@@ -182,9 +187,9 @@ public class FutureTask<V> implements RunnableFuture<V> {
     }
 
     /**
-     * @throws CancellationException {@inheritDoc}
+     * @throws java.util.concurrent.exception.CancellationException {@inheritDoc}
      */
-    public V get() throws InterruptedException, ExecutionException {
+    public V get() throws InterruptedException, java.util.concurrent.exception.ExecutionException {
         int s = state;
         if (s <= COMPLETING)
             s = awaitDone(false, 0L);
@@ -195,7 +200,7 @@ public class FutureTask<V> implements RunnableFuture<V> {
      * @throws CancellationException {@inheritDoc}
      */
     public V get(long timeout, TimeUnit unit)
-        throws InterruptedException, ExecutionException, TimeoutException {
+        throws InterruptedException, java.util.concurrent.exception.ExecutionException, TimeoutException {
         if (unit == null)
             throw new NullPointerException();
         int s = state;

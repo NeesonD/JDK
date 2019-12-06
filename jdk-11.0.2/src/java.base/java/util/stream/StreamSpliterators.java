@@ -27,7 +27,7 @@ package java.util.stream;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Spliterator;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;

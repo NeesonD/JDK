@@ -37,7 +37,7 @@ package java.util.concurrent.locks;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.common.TimeUnit;
 import jdk.internal.vm.annotation.ReservedStackAccess;
 
 /**

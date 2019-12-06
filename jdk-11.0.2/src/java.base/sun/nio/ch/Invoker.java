@@ -28,6 +28,8 @@ package sun.nio.ch;
 import java.nio.channels.*;
 import java.util.concurrent.*;
 import java.security.AccessController;
+import java.util.concurrent.exception.RejectedExecutionException;
+
 import sun.security.action.GetIntegerAction;
 import jdk.internal.misc.InnocuousThread;
 

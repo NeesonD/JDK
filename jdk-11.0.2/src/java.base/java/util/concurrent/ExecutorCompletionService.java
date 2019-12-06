@@ -35,6 +35,11 @@
 
 package java.util.concurrent;
 
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.RejectedExecutionException;
+import java.util.concurrent.queue.BlockingQueue;
+import java.util.concurrent.queue.LinkedBlockingQueue;
+
 /**
  * A {@link CompletionService} that uses a supplied {@link Executor}
  * to execute tasks.  This class arranges that submitted tasks are,
@@ -103,20 +108,20 @@ package java.util.concurrent;
 public class ExecutorCompletionService<V> implements CompletionService<V> {
     private final Executor executor;
     private final AbstractExecutorService aes;
-    private final BlockingQueue<Future<V>> completionQueue;
+    private final java.util.concurrent.queue.BlockingQueue<Future<V>> completionQueue;
 
     /**
      * FutureTask extension to enqueue upon completion.
      */
     private static class QueueingFuture<V> extends FutureTask<Void> {
         QueueingFuture(RunnableFuture<V> task,
-                       BlockingQueue<Future<V>> completionQueue) {
+                       java.util.concurrent.queue.BlockingQueue<Future<V>> completionQueue) {
             super(task, null);
             this.task = task;
             this.completionQueue = completionQueue;
         }
         private final Future<V> task;
-        private final BlockingQueue<Future<V>> completionQueue;
+        private final java.util.concurrent.queue.BlockingQueue<Future<V>> completionQueue;
         protected void done() { completionQueue.add(task); }
     }
 
@@ -137,7 +142,7 @@ public class ExecutorCompletionService<V> implements CompletionService<V> {
     /**
      * Creates an ExecutorCompletionService using the supplied
      * executor for base task execution and a
-     * {@link LinkedBlockingQueue} as a completion queue.
+     * {@link java.util.concurrent.queue.LinkedBlockingQueue} as a completion queue.
      *
      * @param executor the executor to use
      * @throws NullPointerException if executor is {@code null}
@@ -175,7 +180,7 @@ public class ExecutorCompletionService<V> implements CompletionService<V> {
     }
 
     /**
-     * @throws RejectedExecutionException {@inheritDoc}
+     * @throws java.util.concurrent.exception.RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
     public Future<V> submit(Callable<V> task) {

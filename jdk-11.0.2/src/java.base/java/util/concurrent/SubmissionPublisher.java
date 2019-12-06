@@ -40,7 +40,10 @@ import java.lang.invoke.VarHandle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.RejectedExecutionException;
 import java.util.concurrent.locks.LockSupport;
+import java.util.concurrent.utils.Executors;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
@@ -101,7 +104,7 @@ import static java.util.concurrent.Flow.Subscription;
  * {@link Flow.Subscriber#onError(Throwable) onError} and
  * {@link Flow.Subscriber#onComplete() onComplete} are not recorded or
  * handled before cancellation.  If the supplied Executor throws
- * {@link RejectedExecutionException} (or any other RuntimeException
+ * {@link java.util.concurrent.exception.RejectedExecutionException} (or any other RuntimeException
  * or Error) when attempting to execute a task, or a drop handler
  * throws an exception when processing a dropped item, then the
  * exception is rethrown. In these cases, not all subscribers will
@@ -502,7 +505,7 @@ public class SubmissionPublisher<T> implements Publisher<T>,
      * @return the estimated maximum lag among subscribers
      * @throws IllegalStateException if closed
      * @throws NullPointerException if item is null
-     * @throws RejectedExecutionException if thrown by Executor
+     * @throws java.util.concurrent.exception.RejectedExecutionException if thrown by Executor
      */
     public int submit(T item) {
         return doOffer(item, Long.MAX_VALUE, null);
@@ -543,7 +546,7 @@ public class SubmissionPublisher<T> implements Publisher<T>,
      * an estimate of maximum lag
      * @throws IllegalStateException if closed
      * @throws NullPointerException if item is null
-     * @throws RejectedExecutionException if thrown by Executor
+     * @throws java.util.concurrent.exception.RejectedExecutionException if thrown by Executor
      */
     public int offer(T item,
                      BiPredicate<Subscriber<? super T>, ? super T> onDrop) {

@@ -33,10 +33,12 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.queue;
+
+import java.util.concurrent.common.TimeUnit;
 
 /**
- * A {@link BlockingQueue} in which producers may wait for consumers
+ * A {@link java.util.concurrent.BlockingQueue} in which producers may wait for consumers
  * to receive elements.  A {@code TransferQueue} may be useful for
  * example in message passing applications in which producers
  * sometimes (using method {@link #transfer}) await receipt of
@@ -44,7 +46,7 @@ package java.util.concurrent;
  * at other times enqueue elements (via method {@code put}) without
  * waiting for receipt.
  * {@linkplain #tryTransfer(Object) Non-blocking} and
- * {@linkplain #tryTransfer(Object,long,TimeUnit) time-out} versions of
+ * {@linkplain #tryTransfer(Object,long, TimeUnit) time-out} versions of
  * {@code tryTransfer} are also available.
  * A {@code TransferQueue} may also be queried, via {@link
  * #hasWaitingConsumer}, whether there are any threads waiting for

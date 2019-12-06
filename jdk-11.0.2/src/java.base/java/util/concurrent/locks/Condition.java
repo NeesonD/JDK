@@ -36,7 +36,8 @@
 package java.util.concurrent.locks;
 
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.queue.ArrayBlockingQueue;
 
 /**
  * {@code Condition} factors out the {@code Object} monitor
@@ -112,7 +113,7 @@ import java.util.concurrent.TimeUnit;
  * }
  * </pre>
  *
- * (The {@link java.util.concurrent.ArrayBlockingQueue} class provides
+ * (The {@link ArrayBlockingQueue} class provides
  * this functionality, so there is no reason to implement this
  * sample usage class.)
  *

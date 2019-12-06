@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.queue;
 
 import java.util.AbstractQueue;
 import java.util.Collection;
@@ -42,13 +42,15 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.concurrent.Helpers;
+import java.util.concurrent.common.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * An optionally-bounded {@linkplain BlockingDeque blocking deque} based on
+ * An optionally-bounded {@linkplain java.util.concurrent.BlockingDeque blocking deque} based on
  * linked nodes.
  *
  * <p>The optional capacity bound constructor argument serves as a

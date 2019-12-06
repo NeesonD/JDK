@@ -33,11 +33,12 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.common;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+import java.util.concurrent.queue.BlockingQueue;
 
 /**
  * A {@code TimeUnit} represents time durations at a given unit of

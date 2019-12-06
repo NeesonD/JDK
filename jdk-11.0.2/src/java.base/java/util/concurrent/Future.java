@@ -35,6 +35,11 @@
 
 package java.util.concurrent;
 
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.CancellationException;
+import java.util.concurrent.exception.ExecutionException;
+import java.util.concurrent.exception.TimeoutException;
+
 /**
  * A {@code Future} represents the result of an asynchronous
  * computation.  Methods are provided to check if the computation is
@@ -134,13 +139,13 @@ public interface Future<V> {
      * retrieves its result.
      *
      * @return the computed result
-     * @throws CancellationException if the computation was cancelled
-     * @throws ExecutionException if the computation threw an
+     * @throws java.util.concurrent.exception.CancellationException if the computation was cancelled
+     * @throws java.util.concurrent.exception.ExecutionException if the computation threw an
      * exception
      * @throws InterruptedException if the current thread was interrupted
      * while waiting
      */
-    V get() throws InterruptedException, ExecutionException;
+    V get() throws InterruptedException, java.util.concurrent.exception.ExecutionException;
 
     /**
      * Waits if necessary for at most the given time for the computation
@@ -150,7 +155,7 @@ public interface Future<V> {
      * @param unit the time unit of the timeout argument
      * @return the computed result
      * @throws CancellationException if the computation was cancelled
-     * @throws ExecutionException if the computation threw an
+     * @throws java.util.concurrent.exception.ExecutionException if the computation threw an
      * exception
      * @throws InterruptedException if the current thread was interrupted
      * while waiting

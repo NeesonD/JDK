@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.queue;
 
 import java.util.AbstractQueue;
 import java.util.Collection;
@@ -42,6 +42,8 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.concurrent.Helpers;
+import java.util.concurrent.common.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -49,7 +51,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * An optionally-bounded {@linkplain BlockingQueue blocking queue} based on
+ * An optionally-bounded {@linkplain java.util.concurrent.BlockingQueue blocking queue} based on
  * linked nodes.
  * This queue orders elements FIFO (first-in-first-out).
  * The <em>head</em> of the queue is that element that has been on the
@@ -79,7 +81,7 @@ import java.util.function.Predicate;
  * @param <E> the type of elements held in this queue
  */
 public class LinkedBlockingQueue<E> extends AbstractQueue<E>
-        implements BlockingQueue<E>, java.io.Serializable {
+        implements java.util.concurrent.BlockingQueue<E>, java.io.Serializable {
     private static final long serialVersionUID = -6903933977591709194L;
 
     /*

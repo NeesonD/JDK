@@ -39,6 +39,8 @@ import java.security.AccessControlContext;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.utils.ThreadLocalRandom;
 
 /**
  * A thread managed by a {@link ForkJoinPool}, which executes
@@ -112,7 +114,7 @@ public class ForkJoinWorkerThread extends Thread {
                          AccessControlContext acc) {
         super(threadGroup, null, "aForkJoinWorkerThread");
         super.setContextClassLoader(ccl);
-        ThreadLocalRandom.setInheritedAccessControlContext(this, acc);
+        java.util.concurrent.utils.ThreadLocalRandom.setInheritedAccessControlContext(this, acc);
         ThreadLocalRandom.eraseThreadLocals(this); // clear before registering
         this.pool = pool;
         this.workQueue = pool.registerWorker(this);
@@ -228,7 +230,7 @@ public class ForkJoinWorkerThread extends Thread {
 
         @Override // to erase ThreadLocals
         void afterTopLevelExec() {
-            ThreadLocalRandom.eraseThreadLocals(this);
+            java.util.concurrent.utils.ThreadLocalRandom.eraseThreadLocals(this);
         }
 
         @Override // to silently fail

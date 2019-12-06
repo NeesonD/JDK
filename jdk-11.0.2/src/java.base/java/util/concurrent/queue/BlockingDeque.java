@@ -33,11 +33,12 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.queue;
 
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.concurrent.common.TimeUnit;
 
 /**
  * A {@link Deque} that additionally supports blocking operations that wait
@@ -119,7 +120,7 @@ import java.util.NoSuchElementException;
  *  </tr>
  * </table>
  *
- * <p>Like any {@link BlockingQueue}, a {@code BlockingDeque} is thread safe,
+ * <p>Like any {@link java.util.concurrent.BlockingQueue}, a {@code BlockingDeque} is thread safe,
  * does not permit null elements, and may (or may not) be
  * capacity-constrained.
  *

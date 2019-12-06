@@ -635,7 +635,7 @@
  *
  * <p>Suppose, however, that the result container used in this reduction
  * was a concurrently modifiable collection -- such as a
- * {@link java.util.concurrent.ConcurrentHashMap}. In that case, the parallel
+ * {@link java.util.concurrent.collection.ConcurrentHashMap}. In that case, the parallel
  * invocations of the accumulator could actually deposit their results
  * concurrently into the same shared result container, eliminating the need for
  * the combiner to merge distinct result containers. This potentially provides
@@ -753,5 +753,4 @@
  */
 package java.util.stream;
 
-import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;

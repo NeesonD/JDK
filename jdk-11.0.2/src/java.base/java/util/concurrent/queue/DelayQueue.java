@@ -33,9 +33,9 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.queue;
 
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.common.TimeUnit.NANOSECONDS;
 
 import java.util.AbstractQueue;
 import java.util.Collection;
@@ -43,11 +43,13 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.PriorityQueue;
+import java.util.concurrent.Delayed;
+import java.util.concurrent.common.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * An unbounded {@linkplain BlockingQueue blocking queue} of
+ * An unbounded {@linkplain java.util.concurrent.queue.BlockingQueue blocking queue} of
  * {@code Delayed} elements, in which an element can only be taken
  * when its delay has expired.  The <em>head</em> of the queue is that
  * {@code Delayed} element whose delay expired furthest in the

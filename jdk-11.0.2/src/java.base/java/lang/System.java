@@ -57,7 +57,7 @@ import java.util.Properties;
 import java.util.PropertyPermission;
 import java.util.ResourceBundle;
 import java.util.function.Supplier;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 import jdk.internal.util.StaticProperty;

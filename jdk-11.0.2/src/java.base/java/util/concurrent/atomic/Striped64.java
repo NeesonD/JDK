@@ -38,7 +38,7 @@ package java.util.concurrent.atomic;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.utils.ThreadLocalRandom;
 import java.util.function.DoubleBinaryOperator;
 import java.util.function.LongBinaryOperator;
 

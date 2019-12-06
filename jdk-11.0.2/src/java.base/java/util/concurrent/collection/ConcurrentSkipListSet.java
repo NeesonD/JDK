@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.collection;
 
 import java.lang.reflect.Field;
 import java.util.AbstractSet;
@@ -49,7 +49,7 @@ import java.util.Spliterator;
 
 /**
  * A scalable concurrent {@link NavigableSet} implementation based on
- * a {@link ConcurrentSkipListMap}.  The elements of the set are kept
+ * a {@link java.util.concurrent.ConcurrentSkipListMap}.  The elements of the set are kept
  * sorted according to their {@linkplain Comparable natural ordering},
  * or by a {@link Comparator} provided at set creation time, depending
  * on which constructor is used.
@@ -103,14 +103,14 @@ public class ConcurrentSkipListSet<E>
      * element.  This field is declared final for the sake of thread
      * safety, which entails some ugliness in clone().
      */
-    private final ConcurrentNavigableMap<E,Object> m;
+    private final java.util.concurrent.ConcurrentNavigableMap<E,Object> m;
 
     /**
      * Constructs a new, empty set that orders its elements according to
      * their {@linkplain Comparable natural ordering}.
      */
     public ConcurrentSkipListSet() {
-        m = new ConcurrentSkipListMap<E,Object>();
+        m = new java.util.concurrent.ConcurrentSkipListMap<E,Object>();
     }
 
     /**
@@ -122,7 +122,7 @@ public class ConcurrentSkipListSet<E>
      *        ordering} of the elements will be used.
      */
     public ConcurrentSkipListSet(Comparator<? super E> comparator) {
-        m = new ConcurrentSkipListMap<E,Object>(comparator);
+        m = new java.util.concurrent.ConcurrentSkipListMap<E,Object>(comparator);
     }
 
     /**
@@ -137,7 +137,7 @@ public class ConcurrentSkipListSet<E>
      *         of its elements are null
      */
     public ConcurrentSkipListSet(Collection<? extends E> c) {
-        m = new ConcurrentSkipListMap<E,Object>();
+        m = new java.util.concurrent.ConcurrentSkipListMap<E,Object>();
         addAll(c);
     }
 
@@ -150,14 +150,14 @@ public class ConcurrentSkipListSet<E>
      *         of its elements are null
      */
     public ConcurrentSkipListSet(SortedSet<E> s) {
-        m = new ConcurrentSkipListMap<E,Object>(s.comparator());
+        m = new java.util.concurrent.ConcurrentSkipListMap<E,Object>(s.comparator());
         addAll(s);
     }
 
     /**
      * For use by submaps
      */
-    ConcurrentSkipListSet(ConcurrentNavigableMap<E,Object> m) {
+    ConcurrentSkipListSet(java.util.concurrent.ConcurrentNavigableMap<E,Object> m) {
         this.m = m;
     }
 
@@ -172,7 +172,7 @@ public class ConcurrentSkipListSet<E>
             @SuppressWarnings("unchecked")
             ConcurrentSkipListSet<E> clone =
                 (ConcurrentSkipListSet<E>) super.clone();
-            clone.setMap(new ConcurrentSkipListMap<E,Object>(m));
+            clone.setMap(new java.util.concurrent.ConcurrentSkipListMap<E,Object>(m));
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new InternalError();
@@ -498,8 +498,8 @@ public class ConcurrentSkipListSet<E>
      * @since 1.8
      */
     public Spliterator<E> spliterator() {
-        return (m instanceof ConcurrentSkipListMap)
-            ? ((ConcurrentSkipListMap<E,?>)m).keySpliterator()
+        return (m instanceof java.util.concurrent.ConcurrentSkipListMap)
+            ? ((java.util.concurrent.ConcurrentSkipListMap<E,?>)m).keySpliterator()
             : ((ConcurrentSkipListMap.SubMap<E,?>)m).new SubMapKeyIterator();
     }
 

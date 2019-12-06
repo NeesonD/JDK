@@ -31,6 +31,8 @@ import java.net.*;
 import java.util.concurrent.*;
 import java.io.IOException;
 import java.io.FileDescriptor;
+import java.util.concurrent.common.TimeUnit;
+
 import sun.net.NetHooks;
 import sun.net.util.SocketExceptions;
 import sun.security.action.GetPropertyAction;

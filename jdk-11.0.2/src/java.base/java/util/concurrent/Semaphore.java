@@ -36,6 +36,7 @@
 package java.util.concurrent;
 
 import java.util.Collection;
+import java.util.concurrent.common.TimeUnit;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
 /**
@@ -410,7 +411,7 @@ public class Semaphore implements java.io.Serializable {
      *         if the waiting time elapsed before a permit was acquired
      * @throws InterruptedException if the current thread is interrupted
      */
-    public boolean tryAcquire(long timeout, TimeUnit unit)
+    public boolean tryAcquire(long timeout, java.util.concurrent.common.TimeUnit unit)
         throws InterruptedException {
         return sync.tryAcquireSharedNanos(1, unit.toNanos(timeout));
     }
@@ -523,7 +524,7 @@ public class Semaphore implements java.io.Serializable {
      * &quot;barging&quot; behavior can be useful in certain
      * circumstances, even though it breaks fairness. If you want to
      * honor the fairness setting, then use {@link #tryAcquire(int,
-     * long, TimeUnit) tryAcquire(permits, 0, TimeUnit.SECONDS)}
+     * long, java.util.concurrent.common.TimeUnit) tryAcquire(permits, 0, TimeUnit.SECONDS)}
      * which is almost equivalent (it also detects interruption).
      *
      * @param permits the number of permits to acquire
@@ -586,7 +587,7 @@ public class Semaphore implements java.io.Serializable {
      * @throws InterruptedException if the current thread is interrupted
      * @throws IllegalArgumentException if {@code permits} is negative
      */
-    public boolean tryAcquire(int permits, long timeout, TimeUnit unit)
+    public boolean tryAcquire(int permits, long timeout, java.util.concurrent.common.TimeUnit unit)
         throws InterruptedException {
         if (permits < 0) throw new IllegalArgumentException();
         return sync.tryAcquireSharedNanos(permits, unit.toNanos(timeout));

@@ -36,6 +36,7 @@
 package java.util.concurrent.atomic;
 
 import java.io.Serializable;
+import java.util.concurrent.collection.ConcurrentHashMap;
 
 /**
  * One or more variables that together maintain an initially zero
@@ -54,7 +55,7 @@ import java.io.Serializable;
  * consumption.
  *
  * <p>LongAdders can be used with a {@link
- * java.util.concurrent.ConcurrentHashMap} to maintain a scalable
+ * ConcurrentHashMap} to maintain a scalable
  * frequency map (a form of histogram or multiset). For example, to
  * add a count to a {@code ConcurrentHashMap<String,LongAdder> freqs},
  * initializing if not already present, you can use {@code

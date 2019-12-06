@@ -27,14 +27,12 @@ package sun.util.cldr;
 
 import static sun.util.locale.provider.LocaleProviderAdapter.Type;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Locale;
 import java.util.Set;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
 import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleResources;
 import sun.util.locale.provider.CalendarDataProviderImpl;
 import sun.util.locale.provider.CalendarDataUtility;
 

@@ -37,6 +37,11 @@ package java.util.concurrent;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.ExecutionException;
+import java.util.concurrent.exception.RejectedExecutionException;
+import java.util.concurrent.exception.TimeoutException;
+import java.util.concurrent.utils.Executors;
 
 /**
  * An {@link Executor} that provides methods to manage termination and
@@ -63,14 +68,14 @@ import java.util.List;
  * complete. (Class {@link ExecutorCompletionService} can be used to
  * write customized variants of these methods.)
  *
- * <p>The {@link Executors} class provides factory methods for the
+ * <p>The {@link java.util.concurrent.utils.Executors} class provides factory methods for the
  * executor services provided in this package.
  *
  * <h3>Usage Examples</h3>
  *
  * Here is a sketch of a network service in which threads in a thread
  * pool service incoming requests. It uses the preconfigured {@link
- * Executors#newFixedThreadPool} factory method:
+ * java.util.concurrent.utils.Executors#newFixedThreadPool} factory method:
  *
  * <pre> {@code
  * class NetworkService implements Runnable {
@@ -230,7 +235,7 @@ public interface ExecutorService extends Executor {
      * @param task the task to submit
      * @param <T> the type of the task's result
      * @return a Future representing pending completion of the task
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      * @throws NullPointerException if the task is null
      */
@@ -245,7 +250,7 @@ public interface ExecutorService extends Executor {
      * @param result the result to return
      * @param <T> the type of the result
      * @return a Future representing pending completion of the task
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      * @throws NullPointerException if the task is null
      */
@@ -258,7 +263,7 @@ public interface ExecutorService extends Executor {
      *
      * @param task the task to submit
      * @return a Future representing pending completion of the task
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      * @throws NullPointerException if the task is null
      */
@@ -282,7 +287,7 @@ public interface ExecutorService extends Executor {
      * @throws InterruptedException if interrupted while waiting, in
      *         which case unfinished tasks are cancelled
      * @throws NullPointerException if tasks or any of its elements are {@code null}
-     * @throws RejectedExecutionException if any task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if any task cannot be
      *         scheduled for execution
      */
     <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
@@ -313,11 +318,11 @@ public interface ExecutorService extends Executor {
      *         which case unfinished tasks are cancelled
      * @throws NullPointerException if tasks, any of its elements, or
      *         unit are {@code null}
-     * @throws RejectedExecutionException if any task cannot be scheduled
+     * @throws java.util.concurrent.exception.RejectedExecutionException if any task cannot be scheduled
      *         for execution
      */
     <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
-                                  long timeout, TimeUnit unit)
+                                  long timeout, java.util.concurrent.common.TimeUnit unit)
         throws InterruptedException;
 
     /**
@@ -335,12 +340,12 @@ public interface ExecutorService extends Executor {
      * @throws NullPointerException if tasks or any element task
      *         subject to execution is {@code null}
      * @throws IllegalArgumentException if tasks is empty
-     * @throws ExecutionException if no task successfully completes
-     * @throws RejectedExecutionException if tasks cannot be scheduled
+     * @throws java.util.concurrent.exception.ExecutionException if no task successfully completes
+     * @throws java.util.concurrent.exception.RejectedExecutionException if tasks cannot be scheduled
      *         for execution
      */
     <T> T invokeAny(Collection<? extends Callable<T>> tasks)
-        throws InterruptedException, ExecutionException;
+        throws InterruptedException, java.util.concurrent.exception.ExecutionException;
 
     /**
      * Executes the given tasks, returning the result
@@ -361,11 +366,11 @@ public interface ExecutorService extends Executor {
      *         task subject to execution is {@code null}
      * @throws TimeoutException if the given timeout elapses before
      *         any task successfully completes
-     * @throws ExecutionException if no task successfully completes
+     * @throws java.util.concurrent.exception.ExecutionException if no task successfully completes
      * @throws RejectedExecutionException if tasks cannot be scheduled
      *         for execution
      */
     <T> T invokeAny(Collection<? extends Callable<T>> tasks,
-                    long timeout, TimeUnit unit)
+                    long timeout, java.util.concurrent.common.TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException;
 }

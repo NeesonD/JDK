@@ -36,7 +36,7 @@
 package java.util.concurrent.locks;
 
 import java.util.Collection;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.common.TimeUnit;
 import jdk.internal.vm.annotation.ReservedStackAccess;
 
 /**

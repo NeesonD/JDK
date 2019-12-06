@@ -35,8 +35,8 @@
 
 package java.util.concurrent;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.common.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.common.TimeUnit.NANOSECONDS;
 
 import java.util.AbstractQueue;
 import java.util.Arrays;
@@ -46,8 +46,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.ExecutionException;
+import java.util.concurrent.exception.RejectedExecutionException;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.queue.BlockingQueue;
+import java.util.concurrent.utils.Executors;
 
 /**
  * A {@link ThreadPoolExecutor} that can additionally schedule
@@ -89,7 +94,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * without threads to handle tasks once they become eligible to run.
  *
  * <p>As with {@code ThreadPoolExecutor}, if not otherwise specified,
- * this class uses {@link Executors#defaultThreadFactory} as the
+ * this class uses {@link java.util.concurrent.utils.Executors#defaultThreadFactory} as the
  * default thread factory, and {@link ThreadPoolExecutor.AbortPolicy}
  * as the default rejected execution handler.
  *
@@ -241,7 +246,7 @@ public class ScheduledThreadPoolExecutor
             this.sequenceNumber = sequenceNumber;
         }
 
-        public long getDelay(TimeUnit unit) {
+        public long getDelay(java.util.concurrent.common.TimeUnit unit) {
             return unit.convert(time - System.nanoTime(), NANOSECONDS);
         }
 
@@ -369,7 +374,7 @@ public class ScheduledThreadPoolExecutor
      * due to shutdown policy.  Invoked within super.shutdown.
      */
     @Override void onShutdown() {
-        BlockingQueue<Runnable> q = super.getQueue();
+        java.util.concurrent.queue.BlockingQueue<Runnable> q = super.getQueue();
         boolean keepDelayed =
             getExecuteExistingDelayedTasksAfterShutdownPolicy();
         boolean keepPeriodic =
@@ -517,7 +522,7 @@ public class ScheduledThreadPoolExecutor
     /**
      * Returns the nanoTime-based trigger time of a delayed action.
      */
-    private long triggerTime(long delay, TimeUnit unit) {
+    private long triggerTime(long delay, java.util.concurrent.common.TimeUnit unit) {
         return triggerTime(unit.toNanos((delay < 0) ? 0 : delay));
     }
 
@@ -547,12 +552,12 @@ public class ScheduledThreadPoolExecutor
     }
 
     /**
-     * @throws RejectedExecutionException {@inheritDoc}
+     * @throws java.util.concurrent.exception.RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
     public ScheduledFuture<?> schedule(Runnable command,
                                        long delay,
-                                       TimeUnit unit) {
+                                       java.util.concurrent.common.TimeUnit unit) {
         if (command == null || unit == null)
             throw new NullPointerException();
         RunnableScheduledFuture<Void> t = decorateTask(command,
@@ -564,7 +569,7 @@ public class ScheduledThreadPoolExecutor
     }
 
     /**
-     * @throws RejectedExecutionException {@inheritDoc}
+     * @throws java.util.concurrent.exception.RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
     public <V> ScheduledFuture<V> schedule(Callable<V> callable,
@@ -599,7 +604,7 @@ public class ScheduledThreadPoolExecutor
      * cancellation.
      * <li>An execution of the task throws an exception.  In this case
      * calling {@link Future#get() get} on the returned future will throw
-     * {@link ExecutionException}, holding the exception as its cause.
+     * {@link java.util.concurrent.exception.ExecutionException}, holding the exception as its cause.
      * </ul>
      * Subsequent executions are suppressed.  Subsequent calls to
      * {@link Future#isDone isDone()} on the returned future will
@@ -609,14 +614,14 @@ public class ScheduledThreadPoolExecutor
      * subsequent executions may start late, but will not concurrently
      * execute.
      *
-     * @throws RejectedExecutionException {@inheritDoc}
+     * @throws java.util.concurrent.exception.RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      * @throws IllegalArgumentException   {@inheritDoc}
      */
     public ScheduledFuture<?> scheduleAtFixedRate(Runnable command,
                                                   long initialDelay,
                                                   long period,
-                                                  TimeUnit unit) {
+                                                  java.util.concurrent.common.TimeUnit unit) {
         if (command == null || unit == null)
             throw new NullPointerException();
         if (period <= 0L)
@@ -657,14 +662,14 @@ public class ScheduledThreadPoolExecutor
      * {@link Future#isDone isDone()} on the returned future will
      * return {@code true}.
      *
-     * @throws RejectedExecutionException {@inheritDoc}
+     * @throws java.util.concurrent.exception.RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      * @throws IllegalArgumentException   {@inheritDoc}
      */
     public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command,
                                                      long initialDelay,
                                                      long delay,
-                                                     TimeUnit unit) {
+                                                     java.util.concurrent.common.TimeUnit unit) {
         if (command == null || unit == null)
             throw new NullPointerException();
         if (delay <= 0L)
@@ -684,7 +689,7 @@ public class ScheduledThreadPoolExecutor
     /**
      * Executes {@code command} with zero required delay.
      * This has effect equivalent to
-     * {@link #schedule(Runnable,long,TimeUnit) schedule(command, 0, anyUnit)}.
+     * {@link #schedule(Runnable,long, java.util.concurrent.common.TimeUnit) schedule(command, 0, anyUnit)}.
      * Note that inspections of the queue and of the list returned by
      * {@code shutdownNow} will access the zero-delayed
      * {@link ScheduledFuture}, not the {@code command} itself.
@@ -695,7 +700,7 @@ public class ScheduledThreadPoolExecutor
      * {@code command} terminated abruptly.  Instead, the {@code Throwable}
      * thrown by such a task can be obtained via {@link Future#get}.
      *
-     * @throws RejectedExecutionException at discretion of
+     * @throws java.util.concurrent.exception.RejectedExecutionException at discretion of
      *         {@code RejectedExecutionHandler}, if the task
      *         cannot be accepted for execution because the
      *         executor has been shut down
@@ -708,7 +713,7 @@ public class ScheduledThreadPoolExecutor
     // Override AbstractExecutorService methods
 
     /**
-     * @throws RejectedExecutionException {@inheritDoc}
+     * @throws java.util.concurrent.exception.RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
     public Future<?> submit(Runnable task) {
@@ -716,7 +721,7 @@ public class ScheduledThreadPoolExecutor
     }
 
     /**
-     * @throws RejectedExecutionException {@inheritDoc}
+     * @throws java.util.concurrent.exception.RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
     public <T> Future<T> submit(Runnable task, T result) {
@@ -887,7 +892,7 @@ public class ScheduledThreadPoolExecutor
      *
      * @return the task queue
      */
-    public BlockingQueue<Runnable> getQueue() {
+    public java.util.concurrent.queue.BlockingQueue<Runnable> getQueue() {
         return super.getQueue();
     }
 
@@ -1127,7 +1132,7 @@ public class ScheduledThreadPoolExecutor
             return offer(e);
         }
 
-        public boolean offer(Runnable e, long timeout, TimeUnit unit) {
+        public boolean offer(Runnable e, long timeout, java.util.concurrent.common.TimeUnit unit) {
             return offer(e);
         }
 
@@ -1194,7 +1199,7 @@ public class ScheduledThreadPoolExecutor
             }
         }
 
-        public RunnableScheduledFuture<?> poll(long timeout, TimeUnit unit)
+        public RunnableScheduledFuture<?> poll(long timeout, java.util.concurrent.common.TimeUnit unit)
             throws InterruptedException {
             long nanos = unit.toNanos(timeout);
             final ReentrantLock lock = this.lock;

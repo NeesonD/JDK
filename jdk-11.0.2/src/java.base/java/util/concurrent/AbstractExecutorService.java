@@ -35,12 +35,17 @@
 
 package java.util.concurrent;
 
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.common.TimeUnit.NANOSECONDS;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.CancellationException;
+import java.util.concurrent.exception.ExecutionException;
+import java.util.concurrent.exception.RejectedExecutionException;
+import java.util.concurrent.exception.TimeoutException;
 
 /**
  * Provides default implementations of {@link ExecutorService}
@@ -109,7 +114,7 @@ public abstract class AbstractExecutorService implements ExecutorService {
     }
 
     /**
-     * @throws RejectedExecutionException {@inheritDoc}
+     * @throws java.util.concurrent.exception.RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
     public Future<?> submit(Runnable task) {
@@ -120,7 +125,7 @@ public abstract class AbstractExecutorService implements ExecutorService {
     }
 
     /**
-     * @throws RejectedExecutionException {@inheritDoc}
+     * @throws java.util.concurrent.exception.RejectedExecutionException {@inheritDoc}
      * @throws NullPointerException       {@inheritDoc}
      */
     public <T> Future<T> submit(Runnable task, T result) {
@@ -146,7 +151,7 @@ public abstract class AbstractExecutorService implements ExecutorService {
      */
     private <T> T doInvokeAny(Collection<? extends Callable<T>> tasks,
                               boolean timed, long nanos)
-        throws InterruptedException, ExecutionException, TimeoutException {
+        throws InterruptedException, java.util.concurrent.exception.ExecutionException, TimeoutException {
         if (tasks == null)
             throw new NullPointerException();
         int ntasks = tasks.size();
@@ -165,7 +170,7 @@ public abstract class AbstractExecutorService implements ExecutorService {
         try {
             // Record exceptions so that if we fail to obtain any
             // result, we can throw the last exception we got.
-            ExecutionException ee = null;
+            java.util.concurrent.exception.ExecutionException ee = null;
             final long deadline = timed ? System.nanoTime() + nanos : 0L;
             Iterator<? extends Callable<T>> it = tasks.iterator();
 
@@ -197,16 +202,16 @@ public abstract class AbstractExecutorService implements ExecutorService {
                     --active;
                     try {
                         return f.get();
-                    } catch (ExecutionException eex) {
+                    } catch (java.util.concurrent.exception.ExecutionException eex) {
                         ee = eex;
                     } catch (RuntimeException rex) {
-                        ee = new ExecutionException(rex);
+                        ee = new java.util.concurrent.exception.ExecutionException(rex);
                     }
                 }
             }
 
             if (ee == null)
-                ee = new ExecutionException();
+                ee = new java.util.concurrent.exception.ExecutionException();
             throw ee;
 
         } finally {
@@ -215,7 +220,7 @@ public abstract class AbstractExecutorService implements ExecutorService {
     }
 
     public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
-        throws InterruptedException, ExecutionException {
+        throws InterruptedException, java.util.concurrent.exception.ExecutionException {
         try {
             return doInvokeAny(tasks, false, 0);
         } catch (TimeoutException cannotHappen) {
@@ -225,8 +230,8 @@ public abstract class AbstractExecutorService implements ExecutorService {
     }
 
     public <T> T invokeAny(Collection<? extends Callable<T>> tasks,
-                           long timeout, TimeUnit unit)
-        throws InterruptedException, ExecutionException, TimeoutException {
+                           long timeout, java.util.concurrent.common.TimeUnit unit)
+        throws InterruptedException, java.util.concurrent.exception.ExecutionException, TimeoutException {
         return doInvokeAny(tasks, true, unit.toNanos(timeout));
     }
 
@@ -245,7 +250,7 @@ public abstract class AbstractExecutorService implements ExecutorService {
                 Future<T> f = futures.get(i);
                 if (!f.isDone()) {
                     try { f.get(); }
-                    catch (CancellationException | ExecutionException ignore) {}
+                    catch (java.util.concurrent.exception.CancellationException | java.util.concurrent.exception.ExecutionException ignore) {}
                 }
             }
             return futures;

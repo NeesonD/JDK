@@ -35,8 +35,8 @@ import java.util.Locale;
 import java.util.Locale.Builder;
 import java.util.ResourceBundle.Control;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentMap;
 import java.util.spi.LocaleServiceProvider;
 import sun.util.logging.PlatformLogger;
 

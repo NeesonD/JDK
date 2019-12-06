@@ -33,7 +33,9 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.exception;
+
+import java.util.concurrent.FutureTask;
 
 /**
  * Exception indicating that the result of a value-producing task,

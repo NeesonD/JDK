@@ -35,6 +35,11 @@
 
 package java.util.concurrent;
 
+import java.util.concurrent.common.TimeUnit;
+import java.util.concurrent.exception.ExecutionException;
+import java.util.concurrent.exception.RejectedExecutionException;
+import java.util.concurrent.utils.Executors;
+
 /**
  * An {@link ExecutorService} that can schedule commands to run after a given
  * delay, or to execute periodically.
@@ -71,7 +76,7 @@ package java.util.concurrent;
  * to beep every ten seconds for an hour:
  *
  * <pre> {@code
- * import static java.util.concurrent.TimeUnit.*;
+ * import static java.util.concurrent.common.TimeUnit.*;
  * class BeeperControl {
  *   private final ScheduledExecutorService scheduler =
  *     Executors.newScheduledThreadPool(1);
@@ -99,12 +104,12 @@ public interface ScheduledExecutorService extends ExecutorService {
      * @return a ScheduledFuture representing pending completion of
      *         the task and whose {@code get()} method will return
      *         {@code null} upon completion
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      * @throws NullPointerException if command or unit is null
      */
     public ScheduledFuture<?> schedule(Runnable command,
-                                       long delay, TimeUnit unit);
+                                       long delay, java.util.concurrent.common.TimeUnit unit);
 
     /**
      * Submits a value-returning one-shot task that becomes enabled
@@ -115,12 +120,12 @@ public interface ScheduledExecutorService extends ExecutorService {
      * @param unit the time unit of the delay parameter
      * @param <V> the type of the callable's result
      * @return a ScheduledFuture that can be used to extract result or cancel
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      * @throws NullPointerException if callable or unit is null
      */
     public <V> ScheduledFuture<V> schedule(Callable<V> callable,
-                                           long delay, TimeUnit unit);
+                                           long delay, java.util.concurrent.common.TimeUnit unit);
 
     /**
      * Submits a periodic action that becomes enabled first after the
@@ -137,7 +142,7 @@ public interface ScheduledExecutorService extends ExecutorService {
      * <li>The executor terminates, also resulting in task cancellation.
      * <li>An execution of the task throws an exception.  In this case
      * calling {@link Future#get() get} on the returned future will throw
-     * {@link ExecutionException}, holding the exception as its cause.
+     * {@link java.util.concurrent.exception.ExecutionException}, holding the exception as its cause.
      * </ul>
      * Subsequent executions are suppressed.  Subsequent calls to
      * {@link Future#isDone isDone()} on the returned future will
@@ -156,7 +161,7 @@ public interface ScheduledExecutorService extends ExecutorService {
      *         Future#get() get()} method will never return normally,
      *         and will throw an exception upon task cancellation or
      *         abnormal termination of a task execution.
-     * @throws RejectedExecutionException if the task cannot be
+     * @throws java.util.concurrent.exception.RejectedExecutionException if the task cannot be
      *         scheduled for execution
      * @throws NullPointerException if command or unit is null
      * @throws IllegalArgumentException if period less than or equal to zero
@@ -164,7 +169,7 @@ public interface ScheduledExecutorService extends ExecutorService {
     public ScheduledFuture<?> scheduleAtFixedRate(Runnable command,
                                                   long initialDelay,
                                                   long period,
-                                                  TimeUnit unit);
+                                                  java.util.concurrent.common.TimeUnit unit);
 
     /**
      * Submits a periodic action that becomes enabled first after the

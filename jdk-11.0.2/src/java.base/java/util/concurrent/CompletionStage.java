@@ -35,6 +35,7 @@
 
 package java.util.concurrent;
 
+import java.util.concurrent.exception.CompletionException;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;

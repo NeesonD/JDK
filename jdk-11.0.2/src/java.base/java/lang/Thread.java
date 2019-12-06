@@ -33,8 +33,8 @@ import java.security.AccessControlContext;
 import java.security.PrivilegedAction;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.collection.ConcurrentHashMap;
+import java.util.concurrent.collection.ConcurrentMap;
 import java.util.concurrent.locks.LockSupport;
 
 import jdk.internal.misc.TerminatingThreadLocal;
@@ -2065,7 +2065,7 @@ class Thread implements Runnable {
 
 
     // The following three initially uninitialized fields are exclusively
-    // managed by class java.util.concurrent.ThreadLocalRandom. These
+    // managed by class java.util.concurrent.utils.ThreadLocalRandom. These
     // fields are used to build the high-performance PRNGs in the
     // concurrent code, and we can not risk accidental false sharing.
     // Hence, the fields are isolated with @Contended.

@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.collection;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
@@ -53,6 +53,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.Spliterator;
+import java.util.concurrent.utils.ThreadLocalRandom;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -61,7 +62,7 @@ import java.util.function.Predicate;
 import java.util.concurrent.atomic.LongAdder;
 
 /**
- * A scalable concurrent {@link ConcurrentNavigableMap} implementation.
+ * A scalable concurrent {@link java.util.concurrent.ConcurrentNavigableMap} implementation.
  * The map is sorted according to the {@linkplain Comparable natural
  * ordering} of its keys, or by a {@link Comparator} provided at map
  * creation time, depending on which constructor is used.
@@ -110,7 +111,7 @@ import java.util.concurrent.atomic.LongAdder;
  * @since 1.6
  */
 public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
-    implements ConcurrentNavigableMap<K,V>, Cloneable, Serializable {
+    implements java.util.concurrent.ConcurrentNavigableMap<K,V>, Cloneable, Serializable {
     /*
      * This class implements a tree-like two-dimensionally linked skip
      * list in which the index levels are represented in separate
@@ -1678,8 +1679,8 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
         return entrySet = new EntrySet<K,V>(this);
     }
 
-    public ConcurrentNavigableMap<K,V> descendingMap() {
-        ConcurrentNavigableMap<K,V> dm;
+    public java.util.concurrent.ConcurrentNavigableMap<K,V> descendingMap() {
+        java.util.concurrent.ConcurrentNavigableMap<K,V> dm;
         if ((dm = descendingMap) != null) return dm;
         return descendingMap =
             new SubMap<K,V>(this, null, false, null, false, true);
@@ -1874,10 +1875,10 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
      * @throws NullPointerException if {@code fromKey} or {@code toKey} is null
      * @throws IllegalArgumentException {@inheritDoc}
      */
-    public ConcurrentNavigableMap<K,V> subMap(K fromKey,
-                                              boolean fromInclusive,
-                                              K toKey,
-                                              boolean toInclusive) {
+    public java.util.concurrent.ConcurrentNavigableMap<K,V> subMap(K fromKey,
+                                                                   boolean fromInclusive,
+                                                                   K toKey,
+                                                                   boolean toInclusive) {
         if (fromKey == null || toKey == null)
             throw new NullPointerException();
         return new SubMap<K,V>
@@ -1889,8 +1890,8 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
      * @throws NullPointerException if {@code toKey} is null
      * @throws IllegalArgumentException {@inheritDoc}
      */
-    public ConcurrentNavigableMap<K,V> headMap(K toKey,
-                                               boolean inclusive) {
+    public java.util.concurrent.ConcurrentNavigableMap<K,V> headMap(K toKey,
+                                                                    boolean inclusive) {
         if (toKey == null)
             throw new NullPointerException();
         return new SubMap<K,V>
@@ -1902,8 +1903,8 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
      * @throws NullPointerException if {@code fromKey} is null
      * @throws IllegalArgumentException {@inheritDoc}
      */
-    public ConcurrentNavigableMap<K,V> tailMap(K fromKey,
-                                               boolean inclusive) {
+    public java.util.concurrent.ConcurrentNavigableMap<K,V> tailMap(K fromKey,
+                                                                    boolean inclusive) {
         if (fromKey == null)
             throw new NullPointerException();
         return new SubMap<K,V>
@@ -1915,7 +1916,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
      * @throws NullPointerException if {@code fromKey} or {@code toKey} is null
      * @throws IllegalArgumentException {@inheritDoc}
      */
-    public ConcurrentNavigableMap<K,V> subMap(K fromKey, K toKey) {
+    public java.util.concurrent.ConcurrentNavigableMap<K,V> subMap(K fromKey, K toKey) {
         return subMap(fromKey, true, toKey, false);
     }
 
@@ -1924,7 +1925,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
      * @throws NullPointerException if {@code toKey} is null
      * @throws IllegalArgumentException {@inheritDoc}
      */
-    public ConcurrentNavigableMap<K,V> headMap(K toKey) {
+    public java.util.concurrent.ConcurrentNavigableMap<K,V> headMap(K toKey) {
         return headMap(toKey, false);
     }
 
@@ -1933,7 +1934,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
      * @throws NullPointerException if {@code fromKey} is null
      * @throws IllegalArgumentException {@inheritDoc}
      */
-    public ConcurrentNavigableMap<K,V> tailMap(K fromKey) {
+    public java.util.concurrent.ConcurrentNavigableMap<K,V> tailMap(K fromKey) {
         return tailMap(fromKey, true);
     }
 
@@ -2167,8 +2168,8 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
 
     static final class KeySet<K,V>
             extends AbstractSet<K> implements NavigableSet<K> {
-        final ConcurrentNavigableMap<K,V> m;
-        KeySet(ConcurrentNavigableMap<K,V> map) { m = map; }
+        final java.util.concurrent.ConcurrentNavigableMap<K,V> m;
+        KeySet(java.util.concurrent.ConcurrentNavigableMap<K,V> map) { m = map; }
         public int size() { return m.size(); }
         public boolean isEmpty() { return m.isEmpty(); }
         public boolean contains(Object o) { return m.containsKey(o); }
@@ -2245,8 +2246,8 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     }
 
     static final class Values<K,V> extends AbstractCollection<V> {
-        final ConcurrentNavigableMap<K,V> m;
-        Values(ConcurrentNavigableMap<K,V> map) {
+        final java.util.concurrent.ConcurrentNavigableMap<K,V> m;
+        Values(java.util.concurrent.ConcurrentNavigableMap<K,V> map) {
             m = map;
         }
         public Iterator<V> iterator() {
@@ -2286,8 +2287,8 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
     }
 
     static final class EntrySet<K,V> extends AbstractSet<Map.Entry<K,V>> {
-        final ConcurrentNavigableMap<K,V> m;
-        EntrySet(ConcurrentNavigableMap<K,V> map) {
+        final java.util.concurrent.ConcurrentNavigableMap<K,V> m;
+        EntrySet(java.util.concurrent.ConcurrentNavigableMap<K,V> map) {
             m = map;
         }
         public Iterator<Map.Entry<K,V>> iterator() {

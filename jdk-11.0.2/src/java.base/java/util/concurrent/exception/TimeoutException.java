@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.util.concurrent;
+package java.util.concurrent.exception;
 
 /**
  * Exception thrown when a blocking operation times out.  Blocking
